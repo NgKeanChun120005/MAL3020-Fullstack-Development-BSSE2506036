@@ -147,3 +147,18 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Angular
+.angular/
+.angular/cache/
+
+# Coverage
+coverage/
+
+# Docker
+docker-compose.override.yml
