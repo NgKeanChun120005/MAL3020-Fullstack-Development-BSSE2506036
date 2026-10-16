@@ -35,23 +35,46 @@ import { User } from './models/User.js';
 async function start() {
   await connectDB();
 
-  // ---TEMP: verify model works, remove after testing---
-const testUser = await User.create({
-  name: 'Test Customer',
-  email: 'test@example.com',
-  passwordHash: 'plaintext123',
-  role: 'customer'
-});
-console.log('Test user created:', testUser.email, '| role:', testUser.role);
-
-const found = await User.findOne({ email: 'test@example.com' }).select('+passwordHash');
-console.log('Password matches?', await found.comparePassword('plaintext123'));   // true
-console.log('Wrong password?', await found.comparePassword('wrong'));            // false
-
+  // ---TEMP: create multiple persistent test users for Compass inspection---
 // Clean up
-await User.deleteOne({ email: 'test@example.com' });
-console.log('Test user removed');
+  const existing1 = await User.findOne({ email: 'compass-test1@example.com' });
+if (!existing1) {
+  await User.create({
+    name: 'Compass Test1',
+    email: 'compass-test1@example.com',
+    passwordHash: 'plaintext123',
+    role: 'customer'
+  });
+  console.log('Created compass-test1@example.com');
+} else {
+  console.log('compass-test1@example.com already exists');
+}
 
+const existing2 = await User.findOne({ email: 'compass-test2@example.com' });
+if (!existing2) {
+  await User.create({
+    name: 'Compass Test2',
+    email: 'compass-test2@example.com',
+    passwordHash: 'plaintext123',
+    role: 'customer'
+  });
+  console.log('Created compass-test2@example.com');
+} else {
+  console.log('compass-test2@example.com already exists');
+}
+
+const existing3 = await User.findOne({ email: 'compass-test3@example.com' });
+if (!existing3) {
+  await User.create({
+    name: 'Compass Test3',
+    email: 'compass-test3@example.com',
+    passwordHash: 'plaintext123',
+    role: 'customer'
+  });
+  console.log('Created compass-test3@example.com');
+} else {
+  console.log('compass-test3@example.com already exists');
+}
 // ---END TEMP---
 
   app.listen(PORT, () => {

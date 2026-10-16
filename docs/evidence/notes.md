@@ -62,3 +62,9 @@ Running log of code written, why, and where it will be referenced in the report.
 - Notes: Separation of concerns — index.js starts the app while db.js handles
   the database connection. This makes it easier for me to add a second database or swap to a replica set in the future, since I only need to change db.js.
 - Evidence: docs\evidence\screenshots\backend-connected-to-database.png
+
+## MongoDB Compass — password hashing verified
+- Date: 2026-10-16
+- What: Compass screenshot showing passwordHash field is a bcrypt hash,
+  not plaintext.
+- Evidence: docs\evidence\screenshots\mongodb-user-document-in-compass.png
