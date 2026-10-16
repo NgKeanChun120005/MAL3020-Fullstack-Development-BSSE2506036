@@ -1,0 +1,4 @@
+﻿NAME                IMAGE                                                COMMAND                  SERVICE    CREATED          STATUS          PORTS
+takeaway-backend    mal3020-fullstack-development-bsse2506036-backend    "docker-entrypoint.sΓÇª"   backend    36 seconds ago   Up 19 seconds   0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp
+takeaway-frontend   mal3020-fullstack-development-bsse2506036-frontend   "docker-entrypoint.sΓÇª"   frontend   30 seconds ago   Up 19 seconds   0.0.0.0:4200->4200/tcp, [::]:4200->4200/tcp
+takeaway-mongo      mongo:7                                              "docker-entrypoint.sΓÇª"   mongo      36 seconds ago   Up 19 seconds   0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp
