@@ -6,8 +6,21 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "test": "jest",
+    "seed": "node src/config/seed.js",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "lint": "eslint src"
+  },
+    "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "testMatch": ["**/tests/**/*.test.js"],
+    "testTimeout": 30000,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!src/config/seed.js"
+    ]
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -20,6 +33,7 @@
     "socket.io": "^4.8.4"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "eslint": "^10.12.0",
     "jest": "^30.5.2",
     "mongodb-memory-server": "^11.3.0",
