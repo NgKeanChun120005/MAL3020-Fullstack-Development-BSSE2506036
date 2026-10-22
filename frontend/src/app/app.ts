@@ -1,23 +1,12 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { HealthService } from './services/health.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Navbar } from './layout/navbar/navbar';
 
+//wire the navbar into the app root
 @Component({
   selector: 'app-root',
   standalone: true,
-  template: `
-    <h1>Takeaway Ordering System</h1>
-    <p>Backend: {{ status() }}</p>
-  `
+  imports: [RouterOutlet, Navbar],
+  templateUrl: './app.html'
 })
-export class App implements OnInit {
-  status = signal('...');
-
-  constructor(private health: HealthService) {}
-
-  ngOnInit() {
-    this.health.check().subscribe({
-      next: (r) => this.status.set(r.status),
-      error: () => this.status.set('unreachable')
-    });
-  }
-}
+export class App {}

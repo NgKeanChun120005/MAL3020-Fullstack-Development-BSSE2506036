@@ -1,9 +1,5 @@
 ﻿# Log Notes
 
-Running log of code written, why, and where it will be referenced in the report.
-
----
-
 ## Health check endpoint (backend/src/index.js)
 - Written: 14-10-2026
 - Purpose: Minimal /api/health route to verify Express is running
@@ -108,3 +104,22 @@ Running log of code written, why, and where it will be referenced in the report.
 ## Jest configuration
 - File: backend/package.json (jest block)
 - Notes: Uses experimental-vm-modules for ESM; testMatch restricted to tests/**/*.test.js.
+
+
+## auth.service.ts + auth.interceptor.ts (frontend)
+- Written: 22-10-2026
+- Path: frontend/src/app/services/auth.service.ts, interceptors/auth.interceptor.ts
+- Notes: auth.service.ts handles login/logout and registration, while auth.interceptor.ts intercepts outgoing HTTP requests (For example: When you makes an API request (http://localhost:4200/admin), it will intercept the request before it hits the network.)
+
+
+## auth.guard.ts + roleGuard (frontend)
+- Written: 22-10-2026
+- Path: frontend/src/app/guards/auth.guard.ts
+- Reason: Mirrors the backend split (authMiddleware vs roleGuard). authGuard checks if anyone is logged in, and roleGuard('admin') if the user is an admin or not.
+
+
+## Temporary accounts for testing
+- Written: 22-10-2026
+- Below will show 2 temporary credentials for each role to test login authentication for the Frontend test:
+- Role: admin, Email: admin@takeaway.local, Password: admin12345
+- Role: Customer, Email: frontendtest1@gmail.com, Password: Abcd6075!

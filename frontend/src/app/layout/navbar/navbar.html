@@ -1,0 +1,10 @@
+<nav>
+  @if (auth.isLoggedIn()) {
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <span>{{ auth.user()?.name }} ({{ auth.user()?.role }})</span>
+    <button (click)="auth.logout()">Log Out</button>
+  } @else {
+    <a routerLink="/login" routerLinkActive="active">Log In</a>
+    <a routerLink="/register" routerLinkActive="active">Register</a>
+  }
+</nav>

@@ -15,7 +15,7 @@ Real-time takeaway ordering system with:
 - **Admin** — manage menu items, view all orders
 
 ## Status
-In development — see `docs/internal-plan.md`
+In development — see `docs/notes.md` for current progress
 
 ## Repository Structure
 - `frontend/` — Angular application
