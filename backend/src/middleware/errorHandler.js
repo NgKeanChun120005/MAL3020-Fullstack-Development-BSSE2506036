@@ -1,8 +1,8 @@
-export function errorHandler(err, req, res, _next) {
+function errorHandler(err, req, res, _next) {
   const status = err.status || 500;
   const isOperational = err.isOperational === true;
 
-  // Log unexpected errors
+  // log unexpected errors
   if (!isOperational) {
     console.error('Unexpected error:', err);
   }
@@ -11,3 +11,5 @@ export function errorHandler(err, req, res, _next) {
     error: isOperational ? err.message : 'Internal server error'
   });
 }
+
+module.exports = { errorHandler };

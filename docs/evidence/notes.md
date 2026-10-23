@@ -101,7 +101,8 @@
 - Reason: To prevent the import of running server in tests. Splitting createApp() from index.js makes the app a pure function of its dependencies. 
 
 
-## Jest configuration
+## Jest configuration (OUTDATED: no longer use Jest)
+- Written: 21-10-2026
 - File: backend/package.json (jest block)
 - Notes: Uses experimental-vm-modules for ESM; testMatch restricted to tests/**/*.test.js.
 
@@ -123,3 +124,13 @@
 - Below will show 2 temporary credentials for each role to test login authentication for the Frontend test:
 - Role: admin, Email: admin@takeaway.local, Password: admin12345
 - Role: Customer, Email: frontendtest1@gmail.com, Password: Abcd6075!
+
+## Module system refactor: ESM to CommonJS
+- Date: 23-10-2026
+- Approach: Removed "type": "module"; converted every backend file to require/module.exports. Frontend (Angular) remains TypeScript with its own module system (not affected).
+- results: Jest (which needed --experimental-vm-modules) replaced with Mocha + Chai, matching the module system and simplifying test execution.
+
+## Test framework: Jest -> Mocha + Chai
+- Date: 23-10-2026
+- Assertion style: Chai `expect` (BDD) instead of Jest's `expect` — same concept, different API. Example: `expect(res.status).to.equal(201)` vs `expect(res.status).toBe(201)`.
+- Structure: Mocha uses `describe`/`it` (same as Jest), but lifecycle hooks are `before`/`after`/`beforeEach`/`afterEach` — Jest's `beforeAll` is Mocha's `before`.

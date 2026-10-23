@@ -1,8 +1,7 @@
-import { AppError } from '../utils/AppError.js';
+const { AppError } = require('../utils/AppError');
 
-
-// Checks role
-export function roleGuard(...allowed) {
+//check role of the user and allow access to the route if the role is allowed
+function roleGuard(...allowed) {
   return (req, res, next) => {
     if (!req.user) {
       return next(new AppError(401, 'Not authenticated'));
@@ -13,3 +12,5 @@ export function roleGuard(...allowed) {
     next();
   };
 }
+
+module.exports = { roleGuard };

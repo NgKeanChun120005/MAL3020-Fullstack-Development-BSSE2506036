@@ -1,43 +1,32 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
     "seed": "node src/config/seed.js",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test": "mocha tests/**/*.test.js --timeout 10000",
+    "test:watch": "mocha tests/**/*.test.js --watch --timeout 10000",
     "lint": "eslint src"
   },
-    "jest": {
-    "testEnvironment": "node",
-    "transform": {},
-    "testMatch": ["**/tests/**/*.test.js"],
-    "testTimeout": 30000,
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/index.js",
-      "!src/config/seed.js"
-    ]
-  },
   "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.6",
-    "dotenv": "^18.0.7",
-    "express": "^5.3.0",
-    "express-validator": "^7.3.2",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.11.2",
-    "socket.io": "^4.8.4"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.0",
+    "socket.io": "^4.7.5"
   },
   "devDependencies": {
-    "cross-env": "^10.1.0",
-    "eslint": "^10.12.0",
-    "jest": "^30.5.2",
-    "mongodb-memory-server": "^11.3.0",
-    "nodemon": "^3.1.14",
-    "supertest": "^7.3.1"
+    "chai": "^5.1.1",
+    "eslint": "^8.57.0",
+    "mocha": "^10.7.0",
+    "mongodb-memory-server": "^10.0.0",
+    "nodemon": "^3.1.4",
+    "sinon": "^22.1.0",
+    "supertest": "^7.0.0"
   }
 }

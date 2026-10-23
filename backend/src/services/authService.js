@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import { User } from '../models/User.js';
-import { AppError } from '../utils/AppError.js';
+const jwt = require('jsonwebtoken');
+const { User } = require('../models/User');
+const { AppError } = require('../utils/AppError');
 
 function signToken(user) {
   return jwt.sign(
@@ -19,7 +19,7 @@ function publicUser(user) {
   };
 }
 
-export async function register({ name, email, password }) {
+async function register({ name, email, password }) {
   const existing = await User.findOne({ email });
   if (existing) throw new AppError(409, 'Email already registered');
 
@@ -27,20 +27,25 @@ export async function register({ name, email, password }) {
     name,
     email,
     passwordHash: password,
-    role: 'customer'           // registration is customer-only
+    role: 'customer'
   });
 
   const token = signToken(user);
   return { token, user: publicUser(user) };
 }
 
-export async function login({ email, password }) {
+async function login({ email, password }) {
+  // Find the user by email and include the passwordHash field for comparison
   const user = await User.findOne({ email }).select('+passwordHash');
   if (!user) throw new AppError(401, 'Invalid credentials');
 
+  // Compare the provided password with the stored password hash
   const ok = await user.comparePassword(password);
   if (!ok) throw new AppError(401, 'Invalid credentials');
 
+  // Return the token and public user data
   const token = signToken(user);
   return { token, user: publicUser(user) };
 }
+
+module.exports = { register, login };

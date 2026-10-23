@@ -1,8 +1,6 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import { User } from '../models/User.js';
-
-dotenv.config();
+require('dotenv').config();
+const mongoose = require('mongoose');
+const { User } = require('../models/User');
 
 // Seed data for users
 const SEED_USERS = [

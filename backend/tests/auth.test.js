@@ -1,7 +1,7 @@
-import { jest } from '@jest/globals';
-import request from 'supertest';
-import { createApp } from '../src/app.js';
-import { startTestDB, stopTestDB, clearTestDB } from './setup.js';
+const { expect } = require('chai');
+const request = require('supertest');
+const { createApp } = require('../src/app');
+const { startTestDB, stopTestDB, clearTestDB } = require('./setup');
 
 // Set JWT secret before importing anything that reads it
 process.env.JWT_SECRET = 'test-secret';
@@ -9,13 +9,13 @@ process.env.JWT_SECRET = 'test-secret';
 let app;
 
 // Start the in-memory MongoDB server and create the app before all tests
-beforeAll(async () => {
+before(async () => {
   await startTestDB();
   app = createApp();
 });
 
 // Stop the in-memory MongoDB server after all tests
-afterAll(async () => {
+after(async () => {
   await stopTestDB();
 });
 
@@ -30,11 +30,11 @@ describe('POST /api/auth/register', () => {
       .post('/api/auth/register')
       .send({ name: 'Alice', email: 'alice@example.com', password: 'secret123' });
 
-    expect(res.status).toBe(201);
-    expect(res.body.token).toBeDefined();
-    expect(res.body.user.email).toBe('alice@example.com');
-    expect(res.body.user.role).toBe('customer');
-    expect(res.body.user.passwordHash).toBeUndefined();
+    expect(res.status).to.equal(201);
+    expect(res.body.token).to.be.a('string');
+    expect(res.body.user.email).to.equal('alice@example.com');
+    expect(res.body.user.role).to.equal('customer');
+    expect(res.body.user.passwordHash).to.be.undefined;
   });
 
    //test case for duplicate email registration
@@ -47,8 +47,8 @@ describe('POST /api/auth/register', () => {
       .post('/api/auth/register')
       .send({ name: 'Alice 2', email: 'alice@example.com', password: 'secret456' });
 
-    expect(res.status).toBe(409);
-    expect(res.body.error).toMatch(/already/i);
+    expect(res.status).to.equal(409);
+    expect(res.body.error).to.match(/already/i);
   });
 
   //test case for short password registration
@@ -57,8 +57,8 @@ describe('POST /api/auth/register', () => {
       .post('/api/auth/register')
       .send({ name: 'Bob', email: 'bob@example.com', password: '123' });
 
-    expect(res.status).toBe(400);
-    expect(res.body.error).toMatch(/password/i);
+    expect(res.status).to.equal(400);
+    expect(res.body.error).to.match(/password/i);
   });
 });
 
@@ -75,9 +75,9 @@ describe('POST /api/auth/login', () => {
       .post('/api/auth/login')
       .send({ email: 'alice@example.com', password: 'secret123' });
 
-    expect(res.status).toBe(200);
-    expect(res.body.token).toBeDefined();
-    expect(res.body.user.email).toBe('alice@example.com');
+    expect(res.status).to.equal(200);
+    expect(res.body.token).to.be.a('string');
+    expect(res.body.user.email).to.equal('alice@example.com');
   });
 
   //test case for wrong password and unknown email login attempts
@@ -90,9 +90,9 @@ describe('POST /api/auth/login', () => {
       .post('/api/auth/login')
       .send({ email: 'nobody@example.com', password: 'secret123' });
 
-    expect(wrongPass.status).toBe(401);
-    expect(unknownEmail.status).toBe(401);
-    expect(wrongPass.body.error).toBe(unknownEmail.body.error);
+    expect(wrongPass.status).to.equal(401);
+    expect(unknownEmail.status).to.equal(401);
+    expect(wrongPass.body.error).to.equal(unknownEmail.body.error);
   });
 });
 
@@ -112,14 +112,14 @@ describe('GET /api/auth/me', () => {
       .get('/api/auth/me')
       .set('Authorization', `Bearer ${token}`);
 
-    expect(res.status).toBe(200);
-    expect(res.body.user.role).toBe('customer');
+    expect(res.status).to.equal(200);
+    expect(res.body.user.role).to.equal('customer');
   });
 
   //test case for requests with no token
   it('rejects requests with no token', async () => {
     const res = await request(app).get('/api/auth/me');
-    expect(res.status).toBe(401);
+    expect(res.status).to.equal(401);
   });
 
   //test case for requests with invalid token
@@ -127,6 +127,6 @@ describe('GET /api/auth/me', () => {
     const res = await request(app)
       .get('/api/auth/me')
       .set('Authorization', 'Bearer nonsense');
-    expect(res.status).toBe(401);
+    expect(res.status).to.equal(401);
   });
 });

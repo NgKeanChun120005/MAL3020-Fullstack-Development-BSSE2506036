@@ -1,26 +1,32 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import mongoose from 'mongoose';
+const { MongoMemoryServer } = require('mongodb-memory-server');
+const mongoose = require('mongoose');
 
 let mongod;
 
 // Start an in-memory MongoDB server for testing
-export async function startTestDB() {
-  mongod = await MongoMemoryServer.create();
+async function startTestDB() {
+    mongod = await MongoMemoryServer.create({
+    instance: {
+      launchTimeout: 120000 
+    }
+  });
   const uri = mongod.getUri();
   await mongoose.connect(uri);
 }
 
 // Clear the database and disconnect from the in-memory MongoDB server
-export async function stopTestDB() {
+async function stopTestDB() {
   await mongoose.disconnect();
   if (mongod) await mongod.stop();
 }
 
 
 // Clear all collections in the test database
-export async function clearTestDB() {
+async function clearTestDB() {
   const collections = mongoose.connection.collections;
   for (const key of Object.keys(collections)) {
     await collections[key].deleteMany({});
   }
 }
+
+module.exports = { startTestDB, stopTestDB, clearTestDB };

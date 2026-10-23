@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
-import { AppError } from '../utils/AppError.js';
+const jwt = require('jsonwebtoken');
+const { AppError } = require('../utils/AppError');
 
-export function authMiddleware(req, res, next) {
+function authMiddleware(req, res, next) {
   const header = req.headers.authorization;
   if (!header || !header.startsWith('Bearer ')) {
     return next(new AppError(401, 'No token provided'));
@@ -16,3 +16,5 @@ export function authMiddleware(req, res, next) {
     next(new AppError(401, 'Invalid or expired token'));
   }
 }
+
+module.exports = { authMiddleware };
