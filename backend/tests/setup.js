@@ -1,15 +1,14 @@
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoose = require('mongoose');
 
+// setup.js is used to set up and tear down the in-memory MongoDB server for testing purposes.
+
 let mongod;
 
 // Start an in-memory MongoDB server for testing
 async function startTestDB() {
-    mongod = await MongoMemoryServer.create({
-    instance: {
-      launchTimeout: 120000 
-    }
-  });
+   if (mongoose.connection.readyState === 1) return;
+  mongod = await MongoMemoryServer.create();
   const uri = mongod.getUri();
   await mongoose.connect(uri);
 }
@@ -28,5 +27,14 @@ async function clearTestDB() {
     await collections[key].deleteMany({});
   }
 }
+
+// Root Hooks
+before(async () => {
+  await startTestDB();
+});
+
+after(async () => {
+  await stopTestDB();
+});
 
 module.exports = { startTestDB, stopTestDB, clearTestDB };

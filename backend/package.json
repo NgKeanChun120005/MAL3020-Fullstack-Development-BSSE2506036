@@ -6,8 +6,8 @@
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
     "seed": "node src/config/seed.js",
-    "test": "mocha tests/**/*.test.js --timeout 10000",
-    "test:watch": "mocha tests/**/*.test.js --watch --timeout 10000",
+    "test": "mocha --file tests/setup.js tests/**/*.test.js --timeout 10000",
+    "test:watch": "mocha --file tests/setup.js tests/**/*.test.js --watch --timeout 10000",
     "lint": "eslint src"
   },
   "dependencies": {

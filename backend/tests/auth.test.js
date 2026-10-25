@@ -1,23 +1,22 @@
 const { expect } = require('chai');
 const request = require('supertest');
 const { createApp } = require('../src/app');
-const { startTestDB, stopTestDB, clearTestDB } = require('./setup');
+const { clearTestDB } = require('./setup');
+
+// this is an integration test suite for the authentication routes of the application.
+// It uses Mocha as the test framework, Chai for assertions, and Supertest to make HTTP requests to the Express app.
+// The tests cover user registration, login, and retrieving the authenticated user's information.
 
 // Set JWT secret before importing anything that reads it
 process.env.JWT_SECRET = 'test-secret';
 
 let app;
 
-// Start the in-memory MongoDB server and create the app before all tests
+//express app instance is created before all tests
 before(async () => {
-  await startTestDB();
   app = createApp();
 });
 
-// Stop the in-memory MongoDB server after all tests
-after(async () => {
-  await stopTestDB();
-});
 
 // Clear the database before each test
 beforeEach(async () => {
@@ -25,6 +24,7 @@ beforeEach(async () => {
 });
 
 describe('POST /api/auth/register', () => {
+  //Test case for successful customer registration and secure data return
   it('creates a new customer and returns a token', async () => {
     const res = await request(app)
       .post('/api/auth/register')

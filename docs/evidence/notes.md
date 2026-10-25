@@ -125,12 +125,33 @@
 - Role: admin, Email: admin@takeaway.local, Password: admin12345
 - Role: Customer, Email: frontendtest1@gmail.com, Password: Abcd6075!
 
+
 ## Module system refactor: ESM to CommonJS
 - Date: 23-10-2026
 - Approach: Removed "type": "module"; converted every backend file to require/module.exports. Frontend (Angular) remains TypeScript with its own module system (not affected).
 - results: Jest (which needed --experimental-vm-modules) replaced with Mocha + Chai, matching the module system and simplifying test execution.
 
+
 ## Test framework: Jest -> Mocha + Chai
 - Date: 23-10-2026
 - Assertion style: Chai `expect` (BDD) instead of Jest's `expect` — same concept, different API. Example: `expect(res.status).to.equal(201)` vs `expect(res.status).toBe(201)`.
 - Structure: Mocha uses `describe`/`it` (same as Jest), but lifecycle hooks are `before`/`after`/`beforeEach`/`afterEach` — Jest's `beforeAll` is Mocha's `before`.
+
+
+## menuRoutes.js — roleGuard in production use
+- Written: 25-10-2026
+- Path: backend/src/routes/menuRoutes.js
+
+
+## menu.test.js — CRUD integration tests
+- Written: 25-10-2026
+- Path: backend/tests/menu.test.js
+- Reason: Tests the same write route with three different callers: anonymous, customer,admin. The test helps to demonstrate that authorization is enforced end-to-end. Also tests validation (negative price, invalid category) and 404 handling.
+
+
+## Test totals
+- Unit tests: 4 (roleGuard)
+- Integration tests (auth): 8
+- Integration tests (menu): 10
+- Total: 22 passing
+- Evidence: docs\evidence\screenshots\integration-test-for-menu-and-auth.png
