@@ -5,6 +5,8 @@ const { authMiddleware } = require('../middleware/authMiddleware');
 const { roleGuard } = require('../middleware/roleGuard');
 const { validate } = require('../middleware/validate');
 
+//authRoutes.js passes URL path from HTTP to authController.js
+
 const router = express.Router();
 
 // Optional authentication middleware for listing menu items

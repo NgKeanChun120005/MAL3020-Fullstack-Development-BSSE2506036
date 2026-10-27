@@ -57,13 +57,13 @@
 - Purpose: Single place that knows how to connect to MongoDB
 - Notes: Separation of concerns — index.js starts the app while db.js handles
   the database connection. This makes it easier for me to add a second database or swap to a replica set in the future, since I only need to change db.js.
-- Evidence: docs\evidence\screenshots\backend-connected-to-database.png
+- Screenshots: docs\evidence\screenshots\backend-connected-to-database.png
 
 ## MongoDB Compass — password hashing verified
 - Date: 16-10-2026
 - Purpose: Compass screenshot showing passwordHash field is a bcrypt hash,
   not plaintext.
-- Evidence: docs\evidence\screenshots\mongodb-user-document-in-compass.png
+- Screenshots: docs\evidence\screenshots\mongodb-user-document-in-compass.png
 
 
 ## authMiddleware.js + roleGuard.js
@@ -138,10 +138,10 @@
 - Structure: Mocha uses `describe`/`it` (same as Jest), but lifecycle hooks are `before`/`after`/`beforeEach`/`afterEach` — Jest's `beforeAll` is Mocha's `before`.
 
 
-## menuRoutes.js — roleGuard in production use
+## menuRoutes.js — roleGuard applied to menuRoutes.js
 - Written: 25-10-2026
 - Path: backend/src/routes/menuRoutes.js
-
+- Notes: roleGuard's purpose is authorization. Even if a malicious user discovers the URLs to certain pages the roleGuard intercepts the request before the page loads. It checks the user's authenticated role against the required roles for that route. If they don't have permission, it blocks access and redirects them.
 
 ## menu.test.js — CRUD integration tests
 - Written: 25-10-2026
@@ -150,8 +150,38 @@
 
 
 ## Test totals
+-Written 25-10-2026
 - Unit tests: 4 (roleGuard)
 - Integration tests (auth): 8
 - Integration tests (menu): 10
 - Total: 22 passing
-- Evidence: docs\evidence\screenshots\integration-test-for-menu-and-auth.png
+- Screenshots: docs\evidence\screenshots\integration-test-for-menu-and-auth.png
+
+## menu.service.ts (frontend)
+- Written: 25-10-2026
+- Path: frontend/src/app/services/menu.service.ts
+- Notes: Thin HTTP client — the UI has no knowledge of fetch mechanics. `MenuItemDraft` (Partial<MenuItem> minus id/timestamps) enforces at the type level that creates/updates don't send fields the server manages.
+
+## admin-menu.ts (frontend)
+- Written: 26-10-2026
+- Path: frontend/src/app/pages/admin-menu/admin-menu.ts
+- Notes: The component's responsibility is "manage the menu list", which handles both create and edit, distinguished by `editingId()` signal.
+
+## app.routes.ts — roleGuard applied to admin route
+- Written: 26-10-2026
+- Path: frontend/src/app/app.routes.ts
+- Notes: This is the frontend counterpart to backend menuRoutes.js.
+
+## System test evidence 2nd milestone
+- Manual system test performed: 27-10-2026
+- Scenarios covered:
+  1. Anonymous visitor browses /menu (10 items grouped)
+  2. Admin sees Manage Menu in navbar
+  3. Create item -> appears in admin table and public menu
+  4. Edit price -> reflected in both views
+  5. Toggle availability -> hidden from public menu
+  6. Delete item -> removed from both views
+  7. Customer blocked from /admin/menu by role guard
+- Screenshots:
+  - docs/evidence/screenshots/menu-public.png
+  - docs/evidence/screenshots/admin-menu-table.png

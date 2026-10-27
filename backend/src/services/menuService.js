@@ -1,6 +1,8 @@
 const { MenuItem } = require('../models/MenuItem');
 const { AppError } = require('../utils/AppError');
 
+//-- CRUD operations for menu items --
+
 // List all menu items
 // availableOnly is used so that customer route should only see available items, while admin can see all items
 async function list({ availableOnly = false } = {}) {
@@ -31,7 +33,7 @@ async function update(id, data) {
   return item;
 }
 
-// Soft delete a menu item by removing it from the database
+// delete a menu item by removing it from the database
 async function remove(id) {
   const item = await MenuItem.findByIdAndDelete(id);
   if (!item) throw new AppError(404, 'Menu item not found');

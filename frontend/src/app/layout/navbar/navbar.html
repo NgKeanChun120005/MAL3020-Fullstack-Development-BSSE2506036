@@ -1,7 +1,14 @@
 <nav>
+  <a routerLink="/menu" routerLinkActive="active">Menu</a>
+
   @if (auth.isLoggedIn()) {
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-    <span>{{ auth.user()?.name }} ({{ auth.user()?.role }})</span>
+
+    @if (auth.role() === 'admin') {
+      <a routerLink="/admin/menu" routerLinkActive="active">Manage Menu</a>
+    }
+
+    <span class="user">{{ auth.user()?.name }} ({{ auth.user()?.role }})</span>
     <button (click)="auth.logout()">Log Out</button>
   } @else {
     <a routerLink="/login" routerLinkActive="active">Log In</a>

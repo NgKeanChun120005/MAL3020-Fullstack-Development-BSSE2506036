@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const { AppError } = require('../utils/AppError');
 
+// authMiddleware verifies identity. It checks for login token (JWT) in the headers.
+
+
 // Middleware to authenticate requests using JWT tokens
 function authMiddleware(req, res, next) {
   const header = req.headers.authorization;

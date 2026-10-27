@@ -1,6 +1,8 @@
 const { validationResult } = require('express-validator');
 const { AppError } = require('../utils/AppError');
 
+// validate.js helps to check if the data that user sent is shaped correctly and safe.
+
 //helps to validate the request body and return the first error if any validation fails
 function validate(req, res, next) {
   const errors = validationResult(req);
@@ -8,7 +10,6 @@ function validate(req, res, next) {
   if (errors.isEmpty()) return next();
 
   // If there are validation errors, extract the first error message and pass it to the error handling middleware
-  const first = errors.array()[0];
   next(new AppError(400, first.msg));
 }
 

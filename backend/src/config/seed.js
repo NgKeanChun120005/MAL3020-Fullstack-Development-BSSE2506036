@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { User } = require('../models/User');
 const { MenuItem } = require('../models/MenuItem');
 
-// seed.js is a script that populates the database with initial data for users and menu items.
+// seed.js populates the database with initial data for users and menu items.
 // It connects to the MongoDB database, checks if the specified users and menu items already exist, and creates them if they don't.
 // This will be used for setting up a development or testing environment with predefined data.
 
@@ -42,8 +42,11 @@ async function seed() {
   await mongoose.connect(process.env.MONGO_URI);
   console.log('Connected to MongoDB');
 
+  // Seed users
   for (const spec of SEED_USERS) {
+    // finds this specific user email in the database before seeding
     const existing = await User.findOne({ email: spec.email });
+   // if user email already exists, skip the create process for that specific user.
     if (existing) {
       console.log(`Skipping (exists): ${spec.email}`);
       continue;

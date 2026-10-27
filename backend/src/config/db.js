@@ -10,7 +10,7 @@ async function connectDB() {
     await mongoose.connect(process.env.MONGO_URI);
     console.log(`MongoDB connected: ${mongoose.connection.host}`);
   } 
-  // Catch any connection errors and log them, then exit the process
+  // If failed, catch any connection errors and log them, then exit the process
   catch (err) {
     console.error('MongoDB connection failed:', err.message);
     process.exit(1);

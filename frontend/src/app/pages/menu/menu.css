@@ -1,0 +1,21 @@
+.menu-section { margin-bottom: 2rem; }
+.menu-section h3 { text-transform: capitalize; border-bottom: 2px solid #222; padding-bottom: 0.25rem; }
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.menu-list li {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.menu-list li:last-child { border-bottom: 0; }
+.menu-list li p { margin: 0.25rem 0 0; color: #666; font-size: 0.9rem; }
+.menu-list .price { font-weight: bold; color: #2980b9; white-space: nowrap; }

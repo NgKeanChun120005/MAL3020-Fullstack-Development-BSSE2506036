@@ -1,0 +1,40 @@
+.admin-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.admin-list, .admin-form {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+}
+.admin-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+}
+.admin-list th, .admin-list td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 0.9rem;
+}
+.admin-list th { background: #f7f7f7; }
+.admin-list tr.editing td { background: #fff9e6; }
+.admin-list .actions { white-space: nowrap; }
+.admin-form { display: flex; flex-direction: column; gap: 0.75rem; }
+.admin-form h3 { margin: 0; }
+.admin-form label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+.admin-form label.checkbox { flex-direction: row; align-items: center; gap: 0.5rem; }
+.admin-form input, .admin-form select {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+button { cursor: pointer; }
+button.primary { background: #2980b9; color: white; border: 0; padding: 0.5rem 1rem; border-radius: 4px; }
+button.primary:disabled { background: #95a5a6; cursor: not-allowed; }
+button.danger { background: #c0392b; color: white; border: 0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; }
+.admin-list button { padding: 0.25rem 0.5rem; font-size: 0.85rem; margin-right: 0.25rem; }

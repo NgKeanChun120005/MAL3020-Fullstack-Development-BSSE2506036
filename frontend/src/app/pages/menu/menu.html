@@ -1,0 +1,26 @@
+<h2>Menu</h2>
+
+@if (loading()) {
+  <p>Loading menu...</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else if (items().length === 0) {
+  <p>No items available right now.</p>
+} @else {
+  @for (group of grouped(); track group.category) {
+    <section class="menu-section">
+      <h3>{{ group.category | titlecase }}</h3>
+      <ul class="menu-list">
+        @for (item of group.items; track item._id) {
+          <li>
+            <div>
+              <strong>{{ item.name }}</strong>
+              <p>{{ item.description }}</p>
+            </div>
+            <span class="price">${{ item.price.toFixed(2) }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+}

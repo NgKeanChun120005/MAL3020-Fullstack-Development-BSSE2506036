@@ -1,5 +1,8 @@
 const { AppError } = require('../utils/AppError');
 
+// roleGuard.js verifies permissions. 
+// It looks at the req.user attached by authMiddleware and checks if their role matches the required permission for that specific route.
+
 // allow access to the route if the role is allowed
 function roleGuard(...allowed) {
   return (req, res, next) => {

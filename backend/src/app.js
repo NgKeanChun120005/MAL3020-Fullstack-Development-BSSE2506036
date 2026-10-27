@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
-const { errorHandler } = require('./middleware/errorHandler');
 const menuRoutes = require('./routes/menuRoutes');
+const { errorHandler } = require('./middleware/errorHandler');
 
 // Creates and configures Express application instance.
 function createApp() {

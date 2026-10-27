@@ -1,5 +1,8 @@
 const authService = require('../services/authService');
 
+// menuController.js is a controller functions for handling authentication-related requests
+// Translating and passing requests and data between HTTP and authServices.
+
 // Controller functions for handling authentication-related requests
 async function register(req, res, next) {
   // Extract the name, email, and password from the request body and call the authService to register a new user

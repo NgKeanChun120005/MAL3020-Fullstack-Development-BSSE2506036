@@ -1,3 +1,5 @@
+// errorHandler.js catches runtime errors and unexpected crashes.
+
 function errorHandler(err, req, res, _next) {
   // Mongoose validation errors -> 400
   if (err.name === 'ValidationError') {

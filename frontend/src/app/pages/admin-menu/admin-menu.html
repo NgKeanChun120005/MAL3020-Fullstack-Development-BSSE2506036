@@ -1,0 +1,71 @@
+<p>admin-menu works!</p>
+<h2>Manage Menu</h2>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+<div class="admin-grid">
+  <section class="admin-list">
+    <button class="primary" (click)="startCreate()">+ New Item</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Available</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of items(); track item._id) {
+          <tr [class.editing]="editingId() === item._id">
+            <td>{{ item.name }}</td>
+            <td>${{ item.price.toFixed(2) }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.available ? 'Yes' : 'No' }}</td>
+            <td class="actions">
+              <button (click)="startEdit(item)">Edit</button>
+              <button class="danger" (click)="remove(item)">Delete</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="5">No items yet. Create one.</td></tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <aside class="admin-form">
+    <h3>{{ editingId() ? 'Edit Item' : 'New Item' }}</h3>
+    <label>
+      Name
+      <input [(ngModel)]="draft.name" />
+    </label>
+    <label>
+      Description
+      <input [(ngModel)]="draft.description" />
+    </label>
+    <label>
+      Price
+      <input type="number" step="0.01" [(ngModel)]="draft.price" />
+    </label>
+    <label>
+      Category
+      <select [(ngModel)]="draft.category">
+        <option value="mains">Mains</option>
+        <option value="sides">Sides</option>
+        <option value="drinks">Drinks</option>
+        <option value="desserts">Desserts</option>
+      </select>
+    </label>
+    <label class="checkbox">
+      <input type="checkbox" [(ngModel)]="draft.available" />
+      Available
+    </label>
+    <button class="primary" (click)="save()" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : 'Save' }}
+    </button>
+  </aside>
+</div>

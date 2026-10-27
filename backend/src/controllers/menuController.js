@@ -1,15 +1,19 @@
 const menuService = require('../services/menuService');
 
-//---CRUD operations for menu items---
+//---HTTP Handlers for menu CRUD routes---
 
-// Controller functions for handling menu item-related requests
-//only admin users can create, update, or delete menu items, while all users can list and view them
+// menuController.js is a controller functions for handling menu-item related requests.
+// Translating and passing requests and data between HTTP and menuServices.
+
+// Only admin users can create, update, or delete menu items, while all users can list and view them
 async function list(req, res, next) {
   try {
     const isAdmin = req.user && req.user.role === 'admin';
     const items = await menuService.list({ availableOnly: !isAdmin });
     res.json(items);
-  } catch (err) {
+  } 
+  // If an error occurs during registration, pass the error to the next middleware (error handler)
+  catch (err) {
     next(err);
   }
 }
@@ -19,7 +23,9 @@ async function create(req, res, next) {
   try {
     const item = await menuService.create(req.body);
     res.status(201).json(item);
-  } catch (err) {
+  } 
+  // If an error occurs during creation of new menu item, pass the error to the next middleware (error handler)
+  catch (err) {
     next(err);
   }
 }
@@ -29,7 +35,9 @@ async function getById(req, res, next) {
   try {
     const item = await menuService.getById(req.params.id);
     res.json(item);
-  } catch (err) {
+  } 
+  // If an error occurs during menu ID retrieval, pass the error to the next middleware (error handler)
+  catch (err) {
     next(err);
   }
 }
@@ -39,7 +47,9 @@ async function update(req, res, next) {
   try {
     const item = await menuService.update(req.params.id, req.body);
     res.json(item);
-  } catch (err) {
+  } 
+  // If an error occurs during menu item update, pass the error to the next middleware (error handler)
+  catch (err) {
     next(err);
   }
 }
@@ -49,7 +59,9 @@ async function remove(req, res, next) {
   try {
     await menuService.remove(req.params.id);
     res.status(204).send();
-  } catch (err) {
+  } 
+  // If an error occurs when deleting menu, pass the error to the next middleware (error handler)
+  catch (err) {
     next(err);
   }
 }
