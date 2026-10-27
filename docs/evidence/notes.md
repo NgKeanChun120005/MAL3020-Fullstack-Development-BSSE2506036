@@ -172,7 +172,7 @@
 - Path: frontend/src/app/app.routes.ts
 - Notes: This is the frontend counterpart to backend menuRoutes.js.
 
-## System test evidence 2nd milestone
+## System test evidence - 2nd milestone
 - Manual system test performed: 27-10-2026
 - Scenarios covered:
   1. Anonymous visitor browses /menu (10 items grouped)
