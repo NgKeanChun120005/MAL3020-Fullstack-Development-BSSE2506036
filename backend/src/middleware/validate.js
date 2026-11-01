@@ -10,7 +10,8 @@ function validate(req, res, next) {
   if (errors.isEmpty()) return next();
 
   // If there are validation errors, extract the first error message and pass it to the error handling middleware
-  next(new AppError(400, first.msg));
+  const first = errors.array()[0];
+  return next(new AppError(400, first.msg));
 }
 
 module.exports = { validate };

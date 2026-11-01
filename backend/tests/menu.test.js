@@ -41,21 +41,21 @@ before(async () => {
   app = createApp();
 });
 
-// Clear the database before each test and set up users and menu items
-beforeEach(async () => {
-  await clearTestDB();
-  adminToken = await createUserAndLogin({ role: 'admin', email: 'admin@test.local' });
-  customerToken = await createUserAndLogin({ role: 'customer', email: 'cust@test.local' });
-
-  // Seed the database with some menu items for testing
-  await MenuItem.create([
-    { name: 'Pizza', price: 9.5, category: 'mains', available: true },
-    { name: 'Hidden Item', price: 5, category: 'sides', available: false }
-  ]);
-});
-
 // Test suite for the menu routes
 describe('GET /api/menu', () => {
+  // Clear the database before each test and set up users and menu items
+  beforeEach(async () => {
+    await clearTestDB();
+    adminToken = await createUserAndLogin({ role: 'admin', email: 'admin@test.local' });
+    customerToken = await createUserAndLogin({ role: 'customer', email: 'cust@test.local' });
+
+    // Seed the database with some menu items for testing
+    await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Hidden Item', price: 5, category: 'sides', available: false }
+    ]);
+  });
+
     // Test case for retrieving available menu items for anonymous users
   it('returns only available items to anonymous users', async () => {
     const res = await request(app).get('/api/menu');
@@ -76,6 +76,18 @@ describe('GET /api/menu', () => {
 
 // Test suite for creating new menu items
 describe('POST /api/menu', () => {
+  beforeEach(async () => {
+    await clearTestDB();
+    adminToken = await createUserAndLogin({ role: 'admin', email: 'admin@test.local' });
+    customerToken = await createUserAndLogin({ role: 'customer', email: 'cust@test.local' });
+
+    // Seed the database with some menu items for testing
+    await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Hidden Item', price: 5, category: 'sides', available: false }
+    ]);
+  });
+
     // Test case for allowing admins to create a new menu item
   it('allows admins to create an item', async () => {
     const res = await request(app)
@@ -127,6 +139,18 @@ describe('POST /api/menu', () => {
 
 // Test suite for updating existing menu items
 describe('PUT /api/menu/:id', () => {
+  beforeEach(async () => {
+    await clearTestDB();
+    adminToken = await createUserAndLogin({ role: 'admin', email: 'admin@test.local' });
+    customerToken = await createUserAndLogin({ role: 'customer', email: 'cust@test.local' });
+
+    // Seed the database with some menu items for testing
+    await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Hidden Item', price: 5, category: 'sides', available: false }
+    ]);
+  });
+
     // Test case for allowing admins to update an existing menu item
   it('allows admins to update an item', async () => {
     const item = await MenuItem.findOne({ name: 'Pizza' });
@@ -151,6 +175,18 @@ describe('PUT /api/menu/:id', () => {
 
 // Test suite for deleting menu items
 describe('DELETE /api/menu/:id', () => {
+  beforeEach(async () => {
+    await clearTestDB();
+    adminToken = await createUserAndLogin({ role: 'admin', email: 'admin@test.local' });
+    customerToken = await createUserAndLogin({ role: 'customer', email: 'cust@test.local' });
+
+    // Seed the database with some menu items for testing
+    await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Hidden Item', price: 5, category: 'sides', available: false }
+    ]);
+  });
+
     // Test case for rejecting customers from deleting a menu item
   it('allows admins to delete an item', async () => {
     const item = await MenuItem.findOne({ name: 'Pizza' });

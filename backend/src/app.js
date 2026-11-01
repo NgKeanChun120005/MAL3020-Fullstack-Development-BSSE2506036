@@ -3,6 +3,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 const { errorHandler } = require('./middleware/errorHandler');
+const orderRoutes = require('./routes/orderRoutes');
 
 // Creates and configures Express application instance.
 function createApp() {
@@ -18,8 +19,10 @@ function createApp() {
 
   // Mount the auth routes at /api/auth
   app.use('/api/auth', authRoutes);
-// Mount the menu routes at /api/menu
+  // Mount the menu routes at /api/menu
   app.use('/api/menu', menuRoutes);
+  // Mount the order routes at /api/orders
+  app.use('/api/orders', orderRoutes);
 
   // Catch-all route for undefined endpoints
   app.use((req, res) => {

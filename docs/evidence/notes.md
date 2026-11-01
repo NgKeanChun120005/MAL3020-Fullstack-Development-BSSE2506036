@@ -185,3 +185,23 @@
 - Screenshots:
   - docs/evidence/screenshots/menu-public.png
   - docs/evidence/screenshots/admin-menu-table.png
+
+
+  ## Order.js + orderService.js
+- Written: 28-10-2026
+- Path: backend/src/models/Order.js, backend/src/services/orderService.js
+
+## orderRoutes.js
+- Path: backend/src/routes/orderRoutes.js
+- Notes: Three layers of policy visible per route:
+  (1) authMiddleware at router level
+  (2) roleGuard per route
+  (3) ownership check in controller for object-level access.
+  The reader can see the access policy without reading any middleware
+  implementation.
+
+## Order test coverage (Week 3 Day 1)
+- 15 new integration tests, total test count 38
+- Categories covered: creation, role enforcement, ownership,
+  state transitions (valid + illegal), input validation,
+  security (client-price ignored)

@@ -12,7 +12,10 @@ const router = express.Router();
 // Optional authentication middleware for listing menu items
 function optionalAuth(req, res, next) {
   const header = req.headers.authorization;
-  if (!header) return next();
+  if (!header) {
+  req.user = undefined;
+  return next();
+  }
 
   // Reuse authMiddleware — it fails closed (401) if the token is invalid
   return authMiddleware(req, res, next);
