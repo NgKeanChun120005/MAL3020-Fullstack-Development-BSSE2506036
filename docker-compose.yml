@@ -21,7 +21,7 @@ services:
       - mongo
     volumes:
       - ./backend:/app
-      - /app/node_modules
+      - backend-node-modules:/app/node_modules
 
   frontend:
     build: ./frontend
@@ -32,7 +32,9 @@ services:
       - backend
     volumes:
       - ./frontend:/app
-      - /app/node_modules
+      - frontend-node-modules:/app/node_modules
 
 volumes:
   mongo-data:
+  backend-node-modules:
+  frontend-node-modules:

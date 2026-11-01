@@ -6,14 +6,13 @@ const { User } = require('../src/models/User');
 const { MenuItem } = require('../src/models/MenuItem');
 const { Order } = require('../src/models/Order');
 
+// This is an integration test suite for the order routes of the application.
+// The tests cover creating orders, retrieving orders, and updating order statuses, with role-based access control.
+
+
 process.env.JWT_SECRET = 'test-secret';
 
 let app;
-let customerToken;
-let kitchenToken;
-let adminToken;
-let menuItemA;
-let menuItemB;
 
 async function registerAndLogin(email, role = 'customer') {
   const reg = await request(app)
@@ -35,20 +34,25 @@ before(async () => {
   app = createApp();
 });
 
-beforeEach(async () => {
-  await clearTestDB();
-
-  customerToken = await registerAndLogin('cust@test.local', 'customer');
-  kitchenToken = await registerAndLogin('kitchen@test.local', 'kitchen');
-  adminToken = await registerAndLogin('admin@test.local', 'admin');
-
-  [menuItemA, menuItemB] = await MenuItem.create([
-    { name: 'Pizza', price: 9.5, category: 'mains', available: true },
-    { name: 'Cola', price: 1.8, category: 'drinks', available: true }
-  ]);
-});
-
 describe('POST /api/orders', () => {
+  let customerToken, kitchenToken, adminToken, menuItemA, menuItemB;
+
+  beforeEach(async () => {
+    await clearTestDB();
+
+    customerToken = await registerAndLogin('cust@test.local', 'customer');
+    kitchenToken = await registerAndLogin('kitchen@test.local', 'kitchen');
+    adminToken = await registerAndLogin('admin@test.local', 'admin');
+
+    const menuItems = await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Cola', price: 1.8, category: 'drinks', available: true }
+    ]);
+
+    menuItemA = menuItems[0];
+    menuItemB = menuItems[1];
+  });
+
   it('creates an order with server-side snapshot of name and price', async () => {
     const res = await request(app)
       .post('/api/orders')
@@ -129,6 +133,23 @@ describe('POST /api/orders', () => {
 });
 
 describe('GET /api/orders/mine', () => {
+  let customerToken, kitchenToken, menuItemA, menuItemB;
+
+  beforeEach(async () => {
+    await clearTestDB();
+
+    customerToken = await registerAndLogin('cust@test.local', 'customer');
+    kitchenToken = await registerAndLogin('kitchen@test.local', 'kitchen');
+
+    const menuItems = await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Cola', price: 1.8, category: 'drinks', available: true }
+    ]);
+
+    menuItemA = menuItems[0];
+    menuItemB = menuItems[1];
+  });
+
   it('returns only the current customer\'s orders', async () => {
     // Customer A places one order
     await request(app)
@@ -161,6 +182,24 @@ describe('GET /api/orders/mine', () => {
 });
 
 describe('GET /api/orders', () => {
+  let customerToken, kitchenToken, adminToken, menuItemA, menuItemB;
+
+  beforeEach(async () => {
+    await clearTestDB();
+
+    customerToken = await registerAndLogin('cust@test.local', 'customer');
+    kitchenToken = await registerAndLogin('kitchen@test.local', 'kitchen');
+    adminToken = await registerAndLogin('admin@test.local', 'admin');
+
+    const menuItems = await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Cola', price: 1.8, category: 'drinks', available: true }
+    ]);
+
+    menuItemA = menuItems[0];
+    menuItemB = menuItems[1];
+  });
+
   it('allows kitchen to list all orders', async () => {
     await request(app)
       .post('/api/orders')
@@ -207,9 +246,21 @@ describe('GET /api/orders', () => {
 });
 
 describe('PATCH /api/orders/:id/status', () => {
-  let orderId;
+  let customerToken, kitchenToken, menuItemA, orderId;
 
   beforeEach(async () => {
+    await clearTestDB();
+
+    customerToken = await registerAndLogin('cust@test.local', 'customer');
+    kitchenToken = await registerAndLogin('kitchen@test.local', 'kitchen');
+
+    const menuItems = await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Cola', price: 1.8, category: 'drinks', available: true }
+    ]);
+
+    menuItemA = menuItems[0];
+
     const res = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${customerToken}`)
@@ -260,6 +311,22 @@ describe('PATCH /api/orders/:id/status', () => {
 });
 
 describe('GET /api/orders/:id (ownership)', () => {
+  let customerToken, kitchenToken, menuItemA;
+
+  beforeEach(async () => {
+    await clearTestDB();
+
+    customerToken = await registerAndLogin('cust@test.local', 'customer');
+    kitchenToken = await registerAndLogin('kitchen@test.local', 'kitchen');
+
+    const menuItems = await MenuItem.create([
+      { name: 'Pizza', price: 9.5, category: 'mains', available: true },
+      { name: 'Cola', price: 1.8, category: 'drinks', available: true }
+    ]);
+
+    menuItemA = menuItems[0];
+  });
+
   it('blocks customers from reading other customers\' orders', async () => {
     const orderRes = await request(app)
       .post('/api/orders')

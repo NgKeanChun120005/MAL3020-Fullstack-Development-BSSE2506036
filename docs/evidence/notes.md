@@ -194,14 +194,34 @@
 ## orderRoutes.js
 - Path: backend/src/routes/orderRoutes.js
 - Notes: Three layers of policy visible per route:
-  (1) authMiddleware at router level
-  (2) roleGuard per route
-  (3) ownership check in controller for object-level access.
+  1. authMiddleware at router level
+  2. roleGuard per route
+  3. ownership check in controller for object-level access.
   The reader can see the access policy without reading any middleware
   implementation.
 
-## Order test coverage (Week 3 Day 1)
+## Order test coverage
 - 15 new integration tests, total test count 38
 - Categories covered: creation, role enforcement, ownership,
   state transitions (valid + illegal), input validation,
   security (client-price ignored)
+
+  ## socketServer.js — Socket.IO with JWT auth and rooms
+- Written: 01-11-2026
+- Path: backend/src/sockets/socketServer.js
+- Snippet to use: the io.use auth middleware + the role-based join logic.
+
+## emitter.js — event mediator
+- Path: backend/src/sockets/emitter.js
+- Reason: This wrapper acts as a messenger to prevent code from getting trapped in a loop and makes testing much easier
+- Snippet to use: the whole file (~30 lines). Small example of dependency
+  inversion.
+
+## socket.test.js — WebSocket integration tests
+- Path: backend/tests/socket.test.js
+- Reason: proves the WebSocket channel behaves as designed:
+  - Auth gate rejects unauthenticated / invalid tokens (2 tests)
+  - Room routing sends order:new to kitchen, not to customers (2 tests)
+  - order:status reaches the intended order room (1 test)
+- Snippet to use: the order:status test — it exercises the full flow
+  (HTTP create -> socket join -> HTTP update -> socket receive).

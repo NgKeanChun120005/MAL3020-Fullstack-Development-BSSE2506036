@@ -1,6 +1,7 @@
 const { Order } = require('../models/Order');
 const { MenuItem } = require('../models/MenuItem');
 const { AppError } = require('../utils/AppError');
+const { emitNewOrder, emitOrderStatus } = require('../sockets/emitter');
 
 // Legal status transitions — the entire state machine in one place
 const ALLOWED_TRANSITIONS = {
@@ -41,13 +42,16 @@ async function create({ customerId, items, address, notes }) {
     });
   }
 
-  return Order.create({
+  const order = await Order.create({
     customerId,
     items: hydrated,
     total: Number(total.toFixed(2)),
     address,
     notes: notes ?? ''
   });
+
+  emitNewOrder(order);
+  return order;
 }
 
 async function listMine(customerId) {
@@ -79,6 +83,7 @@ async function updateStatus(id, next) {
 
   order.status = next;
   await order.save();
+  emitOrderStatus(order);
   return order;
 }
 
