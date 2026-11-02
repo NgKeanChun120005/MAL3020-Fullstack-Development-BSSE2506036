@@ -16,7 +16,6 @@ function emitNewOrder(order) {
     items: order.items,
     total: order.total,
     status: order.status,
-    address: order.address,
     notes: order.notes,
     createdAt: order.createdAt
   });

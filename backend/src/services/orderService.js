@@ -46,7 +46,6 @@ async function create({ customerId, items, address, notes }) {
     customerId,
     items: hydrated,
     total: Number(total.toFixed(2)),
-    address,
     notes: notes ?? ''
   });
 

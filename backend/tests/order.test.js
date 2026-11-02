@@ -62,7 +62,7 @@ describe('POST /api/orders', () => {
           { menuItemId: menuItemA._id.toString(), qty: 2 },
           { menuItemId: menuItemB._id.toString(), qty: 1 }
         ],
-        address: '123 Test St'
+         
       });
 
     expect(res.status).to.equal(201);
@@ -79,7 +79,7 @@ describe('POST /api/orders', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1, price: 0.01 }],
-        address: '123 Test St'
+         
       });
 
     expect(res.body.total).to.equal(9.5);   // server price, not 0.01
@@ -92,7 +92,7 @@ describe('POST /api/orders', () => {
       .set('Authorization', `Bearer ${kitchenToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
+         
       });
     expect(res.status).to.equal(403);
   });
@@ -105,7 +105,7 @@ describe('POST /api/orders', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
+         
       });
 
     expect(res.status).to.equal(400);
@@ -116,18 +116,7 @@ describe('POST /api/orders', () => {
     const res = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${customerToken}`)
-      .send({ items: [], address: '123 Test St' });
-    expect(res.status).to.equal(400);
-  });
-
-  it('rejects short address', async () => {
-    const res = await request(app)
-      .post('/api/orders')
-      .set('Authorization', `Bearer ${customerToken}`)
-      .send({
-        items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: 'X'
-      });
+      .send({ items: [],   });
     expect(res.status).to.equal(400);
   });
 });
@@ -157,7 +146,6 @@ describe('GET /api/orders/mine', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
       });
 
     // Customer B places another
@@ -167,7 +155,6 @@ describe('GET /api/orders/mine', () => {
       .set('Authorization', `Bearer ${otherToken}`)
       .send({
         items: [{ menuItemId: menuItemB._id.toString(), qty: 1 }],
-        address: '456 Other St'
       });
 
     // Customer A sees only their own
@@ -177,7 +164,6 @@ describe('GET /api/orders/mine', () => {
 
     expect(res.status).to.equal(200);
     expect(res.body).to.have.lengthOf(1);
-    expect(res.body[0].address).to.equal('123 Test St');
   });
 });
 
@@ -206,7 +192,6 @@ describe('GET /api/orders', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
       });
 
     const res = await request(app)
@@ -230,7 +215,6 @@ describe('GET /api/orders', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
       });
 
     const placed = await request(app)
@@ -266,7 +250,6 @@ describe('PATCH /api/orders/:id/status', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
       });
     orderId = res.body._id;
   });
@@ -333,7 +316,7 @@ describe('GET /api/orders/:id (ownership)', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
+         
       });
 
     const otherToken = await registerAndLogin('cust3@test.local');
@@ -350,7 +333,7 @@ describe('GET /api/orders/:id (ownership)', () => {
       .set('Authorization', `Bearer ${customerToken}`)
       .send({
         items: [{ menuItemId: menuItemA._id.toString(), qty: 1 }],
-        address: '123 Test St'
+         
       });
 
     const res = await request(app)

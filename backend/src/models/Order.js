@@ -40,11 +40,6 @@ const orderSchema = new mongoose.Schema(
       default: 'placed',
       index: true
     },
-    address: {
-      type: String,
-      required: [true, 'Delivery address is required'],
-      trim: true
-    },
     notes: {
       type: String,
       trim: true,
@@ -62,7 +57,6 @@ orderSchema.methods.toPublic = function () {
     items: this.items,
     total: this.total,
     status: this.status,
-    address: this.address,
     notes: this.notes,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt

@@ -1,0 +1,45 @@
+<h2>Your Cart</h2>
+
+@if (cart.isEmpty()) {
+  <p>Your cart is empty. <a routerLink="/menu">Browse the menu</a>.</p>
+} @else {
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (line of cart.lines(); track line.menuItemId) {
+        <tr>
+          <td>{{ line.name }}</td>
+          <td>${{ line.price.toFixed(2) }}</td>
+          <td class="qty-controls">
+            <button (click)="changeQty(line.menuItemId, -1)">−</button>
+            <span>{{ line.qty }}</span>
+            <button (click)="changeQty(line.menuItemId, 1)">+</button>
+          </td>
+          <td>${{ (line.price * line.qty).toFixed(2) }}</td>
+          <td>
+            <button class="danger" (click)="remove(line.menuItemId)">Remove</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"><strong>Total</strong></td>
+        <td colspan="2"><strong>${{ cart.total().toFixed(2) }}</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="cart-actions">
+    <a routerLink="/menu">← Continue shopping</a>
+    <button class="primary" (click)="proceedToCheckout()">Proceed to Checkout</button>
+  </div>
+}

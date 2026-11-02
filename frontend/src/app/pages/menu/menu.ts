@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { MenuService, MenuItem } from '../../services/menu.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,10 +11,12 @@ import { MenuService, MenuItem } from '../../services/menu.service';
 })
 export class Menu implements OnInit {
   private menuService = inject(MenuService);
+  cart = inject(CartService);
 
   items = signal<MenuItem[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  justAdded = signal<string | null>(null);
 
   grouped = computed(() => {
     const map = new Map<string, MenuItem[]>();
@@ -45,5 +48,12 @@ export class Menu implements OnInit {
         this.loading.set(false);  // Turn off the loading indicator signal
       }
     });
+  }
+  addToCart(item: MenuItem): void {
+    this.cart.add(item);
+    this.justAdded.set(item._id);
+    setTimeout(() => {
+      if (this.justAdded() === item._id) this.justAdded.set(null);
+    }, 1000);
   }
 }

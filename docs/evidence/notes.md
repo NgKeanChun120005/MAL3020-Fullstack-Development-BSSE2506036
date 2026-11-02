@@ -225,3 +225,35 @@
   - order:status reaches the intended order room (1 test)
 - Snippet to use: the order:status test — it exercises the full flow
   (HTTP create -> socket join -> HTTP update -> socket receive).
+
+
+
+  ## cart.service.ts — signal-based shared state
+- Written: 2-11-2026
+- Path: frontend/src/app/services/cart.service.ts
+- Reason: Cart state is a singleton service with signal-based state, rather
+  than local component state. This solves three problems:
+  1. The cart survives navigation between pages
+  2. The navbar can display cart count without prop-drilling
+  3. Any component can modify the cart through one interface
+  computed() derives count and total from the underlying signal, so they can never go stale. Persistence via localStorage means the cart survives refresh.
+
+## app.routes.ts — role-guarded checkout flow
+- Path: frontend/src/app/app.routes.ts
+- Notes: /cart, /checkout, /orders all guarded by canActivate: [authGuard, roleGuard('customer')]. This mirrors the backend's roleGuard('customer') on the same endpoints. Client-side guards prevent accidental access
+
+## System test evidence (manual, week 3 day 3)
+- Manual system test performed: 2-11-2026
+- Scenarios covered:
+  1. Add 3 items from menu — count shows 3 in navbar
+  2. Cart page shows lines with quantities and subtotal
+  3. Adjust quantity up/down — subtotal updates
+  4. Remove item — total updates
+  5. Checkout with address and notes — order placed
+  6. Redirect to /orders — order visible with PLACED status
+  7. Refresh /orders — order persists
+  8. Cart cleared after order placed
+  9. Cart persists across refresh (localStorage)
+  10. Kitchen role redirected from /cart (guard blocks)
+- Screenshots: menu-add-to-cart.png, cart-page.png, checkout-page.png,
+  order-placed.png

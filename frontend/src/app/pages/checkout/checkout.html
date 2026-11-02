@@ -1,0 +1,44 @@
+<h2>Checkout</h2>
+
+@if (cart.isEmpty()) {
+  <p>Your cart is empty. <a routerLink="/menu">Browse the menu</a>.</p>
+} @else {
+  <div class="checkout-grid">
+    <section class="order-summary">
+      <h3>Order Summary</h3>
+      <ul>
+        @for (line of cart.lines(); track line.menuItemId) {
+          <li>
+            <span>{{ line.qty }} × {{ line.name }}</span>
+            <span>${{ (line.price * line.qty).toFixed(2) }}</span>
+          </li>
+        }
+      </ul>
+      <div class="total">
+        <strong>Total</strong>
+        <strong>${{ cart.total().toFixed(2) }}</strong>
+      </div>
+    </section>
+
+    <section class="checkout-form">
+      <h3>Order Notes</h3>
+      <label>
+        Notes (optional)
+        <textarea
+          rows="3"
+          [ngModel]="notes()"
+          (ngModelChange)="notes.set($event)"
+          placeholder="Any special requests?">
+        </textarea>
+      </label>
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <button class="primary" (click)="submit()" [disabled]="submitting()">
+        {{ submitting() ? 'Placing order...' : 'Place Order' }}
+      </button>
+    </section>
+  </div>
+}

@@ -17,7 +17,12 @@
               <strong>{{ item.name }}</strong>
               <p>{{ item.description }}</p>
             </div>
-            <span class="price">${{ item.price.toFixed(2) }}</span>
+            <div class="menu-actions">
+              <span class="price">${{ item.price.toFixed(2) }}</span>
+              <button class="add-btn" (click)="addToCart(item)">
+                {{ justAdded() === item._id ? '✓ Added' : '+ Add' }}
+              </button>
+            </div>
           </li>
         }
       </ul>

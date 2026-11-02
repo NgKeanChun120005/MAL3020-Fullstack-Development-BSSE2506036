@@ -8,6 +8,16 @@
       <a routerLink="/admin/menu" routerLinkActive="active">Manage Menu</a>
     }
 
+    @if (auth.role() === 'customer') {
+      <a routerLink="/cart" routerLinkActive="active" class="cart-link">
+        Cart
+        @if (cart.count() > 0) {
+          <span class="cart-badge">{{ cart.count() }}</span>
+        }
+      </a>
+      <a routerLink="/orders" routerLinkActive="active">My Orders</a>
+    }
+
     <span class="user">{{ auth.user()?.name }} ({{ auth.user()?.role }})</span>
     <button (click)="auth.logout()">Log Out</button>
   } @else {

@@ -17,7 +17,6 @@ router.post(
     body('items').isArray({ min: 1 }).withMessage('Order must have at least one item'),
     body('items.*.menuItemId').isMongoId().withMessage('Invalid menuItemId'),
     body('items.*.qty').isInt({ min: 1 }).withMessage('Quantity must be at least 1'),
-    body('address').trim().isLength({ min: 5 }).withMessage('Address is required')
   ],
   validate,
   orderController.create

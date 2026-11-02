@@ -2,11 +2,10 @@ const orderService = require('../services/orderService');
 
 async function create(req, res, next) {
   try {
-    const { items, address, notes } = req.body;
+    const { items, notes } = req.body;
     const order = await orderService.create({
       customerId: req.user.id,
       items,
-      address,
       notes
     });
     res.status(201).json(order);

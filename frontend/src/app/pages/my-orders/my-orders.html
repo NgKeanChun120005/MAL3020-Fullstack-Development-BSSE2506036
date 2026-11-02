@@ -1,0 +1,27 @@
+<h2>My Orders</h2>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else if (error()) {
+  <p class="error">{{ error() }}</p>
+} @else if (orders().length === 0) {
+  <p>No orders yet.</p>
+} @else {
+  @for (order of orders(); track order._id) {
+    <article class="order-card">
+      <header>
+        <strong>Order #{{ order._id.slice(-6) }}</strong>
+        <span class="status-badge status-{{ order.status }}">{{ order.status }}</span>
+      </header>
+      <ul>
+        @for (item of order.items; track item.menuItemId) {
+          <li>{{ item.qty }} × {{ item.name }} — ${{ (item.price * item.qty).toFixed(2) }}</li>
+        }
+      </ul>
+      <footer>
+        <span>Total: ${{ order.total.toFixed(2) }}</span>
+        <span class="muted">{{ order.createdAt }}</span>
+      </footer>
+    </article>
+  }
+}
