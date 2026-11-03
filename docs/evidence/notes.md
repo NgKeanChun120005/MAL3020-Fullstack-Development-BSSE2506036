@@ -255,5 +255,15 @@
   8. Cart cleared after order placed
   9. Cart persists across refresh (localStorage)
   10. Kitchen role redirected from /cart (guard blocks)
-- Screenshots: menu-add-to-cart.png, cart-page.png, checkout-page.png,
-  order-placed.png
+- Screenshots: menu-add-to-cart.png, cart-page.png, checkout-page.png, order-placed.png
+
+## socket.service.ts — Angular Socket.IO client
+- Written: 03-11-2026
+- Path: frontend/src/app/services/socket.service.ts
+- Snippet to use: ensureConnected + onOrderStatus. Shows that the service handles auth, connection, and event subscription in one place, and components remain ignorant of Socket.IO details.
+- Design note: lazily connects only when needed (on first joinOrder or onOrderStatus), so anonymous browsing uses no socket connection.
+
+## my-orders.ts — live status subscriber
+- Path: frontend/src/app/pages/my-orders/my-orders.ts
+- Design: fetch-initial-state-then-subscribe pattern. The HTTP call loads orders once, then the socket subscription patches them on change.
+- Snippet to use: subscribeToStatusUpdates

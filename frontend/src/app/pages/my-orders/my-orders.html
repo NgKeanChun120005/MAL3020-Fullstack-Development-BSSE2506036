@@ -5,22 +5,29 @@
 } @else if (error()) {
   <p class="error">{{ error() }}</p>
 } @else if (orders().length === 0) {
-  <p>No orders yet.</p>
+  <p>No orders yet. <a routerLink="/menu">Browse the menu</a>.</p>
 } @else {
   @for (order of orders(); track order._id) {
-    <article class="order-card">
+    <article
+      class="order-card"
+      [class.recently-updated]="recentlyUpdated().has(order._id)">
       <header>
         <strong>Order #{{ order._id.slice(-6) }}</strong>
-        <span class="status-badge status-{{ order.status }}">{{ order.status }}</span>
+        <span class="status-badge status-{{ order.status }}">
+          {{ order.status }}
+        </span>
       </header>
       <ul>
         @for (item of order.items; track item.menuItemId) {
           <li>{{ item.qty }} × {{ item.name }} — ${{ (item.price * item.qty).toFixed(2) }}</li>
         }
       </ul>
+      @if (order.notes) {
+        <p class="notes"><em>Notes:</em> {{ order.notes }}</p>
+      }
       <footer>
         <span>Total: ${{ order.total.toFixed(2) }}</span>
-        <span class="muted">{{ order.createdAt }}</span>
+        <span class="muted">{{ order.createdAt | date:'short' }}</span>
       </footer>
     </article>
   }
