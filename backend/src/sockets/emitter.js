@@ -24,11 +24,18 @@ function emitNewOrder(order) {
 // Emits an order status update event to the specific order room, notifying relevant clients of the status change.
 function emitOrderStatus(order) {
   if (!ioInstance) return;
-  ioInstance.to(`order:${order._id}`).emit('order:status', {
+
+  const payload = {
     _id: order._id,
     status: order.status,
     updatedAt: order.updatedAt
-  });
+  };
+
+   // The customer who owns the order
+  ioInstance.to(`order:${order._id}`).emit('order:status', payload);
+
+  // All kitchen staff (so multiple staff see each other's updates)
+  ioInstance.to('kitchen').emit('order:status', payload);
 }
 
 module.exports = { setIO, emitNewOrder, emitOrderStatus };

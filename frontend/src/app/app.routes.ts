@@ -8,12 +8,14 @@ import { authGuard, roleGuard } from './guards/auth.guard';
 import { Cart } from './pages/cart/cart';
 import { Checkout } from './pages/checkout/checkout';
 import { MyOrders } from './pages/my-orders/my-orders';
-  
+import { Kitchen } from './pages/kitchen/kitchen';
 
 // Define the routes for the Angular application, including authentication and role-based guards.
 export const routes: Routes = [
   { path: '', component: Home, canActivate: [authGuard] },
   { path: 'menu', component: Menu },
+  //admin can also monitor the kitchen dashboard.
+  { path: 'kitchen', canActivate: [authGuard, roleGuard('kitchen', 'admin')], component: Kitchen },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
  

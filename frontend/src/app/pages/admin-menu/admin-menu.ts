@@ -6,7 +6,8 @@ import { MenuService, MenuItem, MenuItemDraft } from '../../services/menu.servic
   selector: 'app-admin-menu',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './admin-menu.html'
+  templateUrl: './admin-menu.html',
+  styleUrls: ['./admin-menu.css']
 })
 export class AdminMenu implements OnInit {
   // Pulls the shared MenuService data layer using Angular's functional injector engine

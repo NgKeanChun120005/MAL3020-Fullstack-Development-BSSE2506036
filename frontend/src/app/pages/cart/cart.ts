@@ -6,7 +6,8 @@ import { CartService } from '../../services/cart.service';
   selector: 'app-cart',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './cart.html'
+  templateUrl: './cart.html',
+  styleUrls: ['./cart.css']
 })
 export class Cart {
   cart = inject(CartService);

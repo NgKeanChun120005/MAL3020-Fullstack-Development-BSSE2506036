@@ -8,7 +8,8 @@ import { OrderService } from '../../services/order.service';
   selector: 'app-checkout',
   standalone: true,
   imports: [FormsModule, RouterLink],
-  templateUrl: './checkout.html'
+  templateUrl: './checkout.html',
+  styleUrls: ['./checkout.css']
 })
 export class Checkout {
   cart = inject(CartService);

@@ -1,0 +1,51 @@
+<h2>Kitchen Dashboard</h2>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p>Loading orders...</p>
+} @else if (activeOrders().length === 0) {
+  <p class="empty">No active orders. New orders will appear here automatically.</p>
+} @else {
+  <div class="orders-grid">
+    @for (order of activeOrders(); track order._id) {
+      <article
+        class="kitchen-card status-{{ order.status }}"
+        [class.recently-updated]="recentlyUpdated().has(order._id)">
+        <header>
+          <div>
+            <strong>Order #{{ order._id.slice(-6) }}</strong>
+            <span class="badge status-{{ order.status }}">{{ order.status }}</span>
+          </div>
+          <span class="time">{{ order.createdAt | date:'shortTime' }}</span>
+        </header>
+
+        <ul class="items">
+          @for (item of order.items; track item.menuItemId) {
+            <li>
+              <span class="qty">{{ item.qty }}×</span>
+              <span class="name">{{ item.name }}</span>
+            </li>
+          }
+        </ul>
+
+        @if (order.notes) {
+          <p class="notes"><em>Notes:</em> {{ order.notes }}</p>
+        }
+
+        <footer>
+          <span class="total">${{ order.total.toFixed(2) }}</span>
+          @if (hasNext(order.status)) {
+            <button
+              class="advance-btn advance-{{ order.status }}"
+              (click)="advance(order)">
+              {{ nextLabel(order.status) }} →
+            </button>
+          }
+        </footer>
+      </article>
+    }
+  </div>
+}

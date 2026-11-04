@@ -9,7 +9,8 @@ import { RouterLink } from '@angular/router';
   selector: 'app-my-orders',
   standalone: true,
   imports: [DatePipe, RouterLink],
-  templateUrl: './my-orders.html'
+  templateUrl: './my-orders.html',
+  styleUrls: ['./my-orders.css']
 })
 export class MyOrders implements OnInit, OnDestroy {
   private orderService = inject(OrderService);

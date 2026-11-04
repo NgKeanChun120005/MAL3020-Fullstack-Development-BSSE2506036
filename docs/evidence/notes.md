@@ -267,3 +267,19 @@
 - Path: frontend/src/app/pages/my-orders/my-orders.ts
 - Design: fetch-initial-state-then-subscribe pattern. The HTTP call loads orders once, then the socket subscription patches them on change.
 - Snippet to use: subscribeToStatusUpdates
+
+
+## kitchen.ts — real-time order queue
+- Written: 4-11-2026
+- Path: frontend/src/app/pages/kitchen/kitchen.ts
+- Design notes:
+  - The actor (kitchen who clicks Advance) applies the status change optimistically from the HTTP response, so the UI responds instantly even if the socket lags.
+  - The socket subscription serves two purposes:
+    1. Catches changes made by OTHER kitchen staff (multi-session sync)
+    2. Provides defense-in-depth if the local PATCH fails
+- Snippet to use: the advance() function + subscribeToStatusUpdates().
+
+## Two-sided real-time demonstration
+- Date: 4-11-2026
+- Evidence: kitchen-dashboard-new-order.png, kitchen-dashboard-preparing.png, customer-orders-before.png, customer-orders-after.png
+- This is the primary visual evidence for the WebSocket requirement.

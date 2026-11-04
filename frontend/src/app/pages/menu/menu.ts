@@ -7,7 +7,8 @@ import { CartService } from '../../services/cart.service';
   selector: 'app-menu',
   standalone: true,
   imports: [TitleCasePipe],
-  templateUrl: './menu.html'
+  templateUrl: './menu.html',
+  styleUrls: ['./menu.css']
 })
 export class Menu implements OnInit {
   private menuService = inject(MenuService);

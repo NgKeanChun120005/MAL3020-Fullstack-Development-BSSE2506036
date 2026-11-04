@@ -1,0 +1,101 @@
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.kitchen-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 6px solid #999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.kitchen-card.status-placed { border-left-color: #f39c12; }
+.kitchen-card.status-preparing { border-left-color: #2980b9; }
+.kitchen-card.status-ready { border-left-color: #16a085; }
+.kitchen-card.recently-updated {
+  animation: pulse 1.5s ease-in-out;
+}
+@keyframes pulse {
+  0% { background: #fffbe6; }
+  50% { background: #fff3b0; }
+  100% { background: white; }
+}
+.kitchen-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+.kitchen-card header > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.badge {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+.badge.status-placed { background: #f39c12; color: white; }
+.badge.status-preparing { background: #2980b9; color: white; }
+.badge.status-ready { background: #16a085; color: white; }
+.time { color: #999; font-size: 0.85rem; }
+.items {
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.items li {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+  font-size: 0.9rem;
+}
+.items .qty { font-weight: bold; color: #2980b9; min-width: 24px; }
+.notes {
+  font-size: 0.85rem;
+  background: #fff8dc;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  margin: 0;
+  border-left: 3px solid #e6b800;
+}
+.kitchen-card footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+.total { font-weight: bold; }
+.advance-btn {
+  border: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: transform 0.1s;
+}
+.advance-btn:active { transform: scale(0.97); }
+.advance-placed { background: #2980b9; }
+.advance-placed:hover { background: #21618c; }
+.advance-preparing { background: #16a085; }
+.advance-preparing:hover { background: #117864; }
+.advance-ready { background: #27ae60; }
+.advance-ready:hover { background: #1e8449; }
+.empty {
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+  color: #666;
+}

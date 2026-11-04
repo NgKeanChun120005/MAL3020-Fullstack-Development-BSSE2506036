@@ -8,6 +8,10 @@
       <a routerLink="/admin/menu" routerLinkActive="active">Manage Menu</a>
     }
 
+    @if (auth.role() === 'kitchen' || auth.role() === 'admin') {
+      <a routerLink="/kitchen" routerLinkActive="active">Kitchen</a>
+    }
+
     @if (auth.role() === 'customer') {
       <a routerLink="/cart" routerLinkActive="active" class="cart-link">
         Cart

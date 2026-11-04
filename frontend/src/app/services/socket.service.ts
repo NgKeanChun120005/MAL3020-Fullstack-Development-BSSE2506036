@@ -48,6 +48,19 @@ export class SocketService implements OnDestroy {
       return () => socket.off('order:status', handler);
     });
   }
+  
+  onNewOrder(): Observable<any> {
+    return new Observable((subscriber) => {
+      const socket = this.ensureConnected();
+      if (!socket) {
+        subscriber.error(new Error('Not authenticated'));
+        return;
+      }
+      const handler = (payload: any) => subscriber.next(payload);
+      socket.on('order:new', handler);
+      return () => socket.off('order:new', handler);
+    });
+  }
 
   disconnect(): void {
     this.socket?.disconnect();
