@@ -283,3 +283,34 @@
 - Date: 4-11-2026
 - Evidence: kitchen-dashboard-new-order.png, kitchen-dashboard-preparing.png, customer-orders-before.png, customer-orders-after.png
 - This is the primary visual evidence for the WebSocket requirement.
+
+
+## CI pipeline (GitHub Actions)
+- Written: 5-11-2026
+- Path: .github/workflows/ci.yml
+- What it does:
+  - On every push and PR to main:
+    - Backend job: checkout -> Node 20 -> npm ci -> ESLint -> Mocha tests
+    - Frontend job: checkout -> Node 20 -> npm ci -> ng build
+  - Both jobs must pass for the workflow to be green
+- Reason for this structure:
+  - Jobs run in parallel (no inter-job dependency), reducing total CI time
+  - npm caching via setup-node's cache option reduces install time on repeat runs
+  - mongodb-memory-server runs an in-process database, so CI needs no external Mongo service, keeps the pipeline simple
+  - Frontend build catches TypeScript errors that dev mode can miss
+- Screenshots: docs/evidence/screenshots/ci-green.png
+- YAML: docs/evidence/code-snippets/ci.yml
+
+## ESLint config
+- Written: 5-11-2026
+- Path: backend/.eslintrc.cjs
+- Configuration: eslint:recommended preset, Node + Mocha + ES2022 environments, custom rules for unused-vars (warn) and console (off)
+- Why legacy config (.eslintrc.cjs) rather than flat config: ESLint 8.57 defaults to legacy config, while flat config requires ESLint 9 or explicit opt-in, which would have added unnecessary migration work
+- CI integration: the backend CI job runs this on every push, so the ESLint report is produced continuously
+
+## CI failures encountered during setup
+- Encountered two issues on first CI run
+  1. Frontend `npm ci` failed because package-lock.json was out of sync after socket.io-client was installed (missing @emnapi/* transitive deps)
+     - Fix: regenerated lock file locally (rm node_modules + package-lock, npm install), committed and pushed
+  2. Backend ESLint failed with "no config file found"
+     - Fix: created backend/.eslintrc.cjs with eslint:recommended preset
