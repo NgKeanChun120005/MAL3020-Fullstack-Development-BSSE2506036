@@ -1,0 +1,10 @@
+﻿
+> backend@1.0.0 lint
+> eslint src
+
+
+/app/src/services/orderService.js
+  15:44  warning  'address' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+Γ£û 1 problem (0 errors, 1 warning)
+

@@ -1,0 +1,83 @@
+﻿
+> backend@1.0.0 test
+> mocha --file tests/setup.js tests/**/*.test.js --timeout 10000
+
+
+
+  POST /api/auth/register
+    Γ£ö creates a new customer and returns a token (57ms)
+    Γ£ö rejects duplicate email (59ms)
+    Γ£ö rejects short passwords
+
+  POST /api/auth/login
+    Γ£ö logs in with valid credentials (53ms)
+    Γ£ö rejects wrong password with same error as unknown email (55ms)
+
+  GET /api/auth/me
+    Γ£ö returns the current user with a valid token
+    Γ£ö rejects requests with no token
+    Γ£ö rejects invalid tokens
+
+  GET /api/menu
+    Γ£ö returns only available items to anonymous users
+    Γ£ö returns all items to admins
+
+  POST /api/menu
+    Γ£ö allows admins to create an item
+    Γ£ö rejects unauthenticated requests
+    Γ£ö rejects customers with 403
+    Γ£ö rejects invalid category
+    Γ£ö rejects negative price
+
+  PUT /api/menu/:id
+    Γ£ö allows admins to update an item
+    Γ£ö returns 404 for unknown id
+
+  DELETE /api/menu/:id
+    Γ£ö allows admins to delete an item
+
+  POST /api/orders
+    Γ£ö creates an order with server-side snapshot of name and price
+    Γ£ö ignores client-supplied price (security)
+    Γ£ö rejects non-customers
+    Γ£ö rejects orders for unavailable items
+    Γ£ö rejects empty items array
+
+  GET /api/orders/mine
+    Γ£ö returns only the current customer's orders (117ms)
+
+  GET /api/orders
+    Γ£ö allows kitchen to list all orders
+    Γ£ö rejects customers
+    Γ£ö filters by status
+
+  PATCH /api/orders/:id/status
+    Γ£ö advances placed ΓåÆ preparing ΓåÆ ready ΓåÆ completed
+    Γ£ö rejects illegal transition (placed ΓåÆ completed)
+    Γ£ö allows cancelling from placed
+    Γ£ö rejects customers from changing status
+
+  GET /api/orders/:id (ownership)
+    Γ£ö blocks customers from reading other customers' orders (112ms)
+    Γ£ö allows kitchen to read any order
+
+  roleGuard (unit)
+    Γ£ö allows a user whose role is permitted
+    Γ£ö rejects a user whose role is not permitted
+    Γ£ö rejects an unauthenticated request
+    Γ£ö permits any of multiple allowed roles
+
+  Socket.IO authentication
+    Γ£ö rejects connections without a token
+    Γ£ö rejects connections with an invalid token
+
+  order:new event
+    Γ£ö notifies kitchen when a customer places an order
+    Γ£ö does not notify customers (207ms)
+
+  order:status event
+    Γ£ö notifies the order room when status changes (111ms)
+
+
+  42 passing (17s)
+
