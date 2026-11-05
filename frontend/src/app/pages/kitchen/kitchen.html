@@ -16,8 +16,8 @@
         [class.recently-updated]="recentlyUpdated().has(order._id)">
         <header>
           <div>
-            <strong>Order #{{ order._id.slice(-6) }}</strong>
-            <span class="badge status-{{ order.status }}">{{ order.status }}</span>
+           <strong>Order #{{ order._id.slice(-6) }}</strong> 
+           <span class="badge status-{{ order.status }}">{{ order.status }}</span>
           </div>
           <span class="time">{{ order.createdAt | date:'shortTime' }}</span>
         </header>
