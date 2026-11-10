@@ -1,101 +1,120 @@
 .orders-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-lg);
 }
+
 .kitchen-card {
   background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  border-left: 6px solid #999;
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border-left: 6px solid var(--color-border-strong);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease;
 }
-.kitchen-card.status-placed { border-left-color: #f39c12; }
-.kitchen-card.status-preparing { border-left-color: #2980b9; }
-.kitchen-card.status-ready { border-left-color: #16a085; }
-.kitchen-card.recently-updated {
-  animation: pulse 1.5s ease-in-out;
+
+.kitchen-card:hover {
+  box-shadow: var(--shadow-md);
 }
-@keyframes pulse {
-  0% { background: #fffbe6; }
-  50% { background: #fff3b0; }
-  100% { background: white; }
-}
+
+/* Border colors based on status */
+.kitchen-card.status-placed    { border-left-color: var(--color-warning); }
+.kitchen-card.status-preparing { border-left-color: var(--color-primary); }
+.kitchen-card.status-ready     { border-left-color: var(--color-info); }
+
+/* Card Header */
 .kitchen-card header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.95rem;
 }
+
 .kitchen-card header > div {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-md);
 }
-.badge {
-  font-size: 0.7rem;
-  padding: 0.15rem 0.5rem;
-  border-radius: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: bold;
+
+.kitchen-card header strong {
+  font-size: 1.05rem;
+  color: var(--color-text);
 }
-.badge.status-placed { background: #f39c12; color: white; }
-.badge.status-preparing { background: #2980b9; color: white; }
-.badge.status-ready { background: #16a085; color: white; }
-.time { color: #999; font-size: 0.85rem; }
+
+.kitchen-card .time { 
+  color: var(--color-text-faint); 
+  font-size: 0.85rem; 
+}
+
+/* Items List */
 .items {
   list-style: none;
-  padding: 0.5rem 0;
+  padding: var(--space-sm) 0;
   margin: 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
+
 .items li {
   display: flex;
-  gap: 0.5rem;
-  padding: 0.15rem 0;
-  font-size: 0.9rem;
+  gap: var(--space-sm);
+  padding: 0.25rem 0;
+  font-size: 0.95rem;
+  color: var(--color-text);
 }
-.items .qty { font-weight: bold; color: #2980b9; min-width: 24px; }
+
+.items .qty {
+  font-weight: 700;
+  color: var(--color-primary);
+  min-width: 24px;
+}
+
+/* Notes */
 .notes {
   font-size: 0.85rem;
   background: #fff8dc;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
   margin: 0;
   border-left: 3px solid #e6b800;
+  color: var(--color-text-muted);
 }
+
+/* Footer */
 .kitchen-card footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
 }
-.total { font-weight: bold; }
+
+.total { 
+  font-weight: 700; 
+  font-size: 1.1rem;
+}
+
 .advance-btn {
   border: 0;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   color: white;
-  font-weight: bold;
-  font-size: 0.9rem;
-  transition: transform 0.1s;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: transform 0.1s, background 0.15s;
 }
-.advance-btn:active { transform: scale(0.97); }
-.advance-placed { background: #2980b9; }
-.advance-placed:hover { background: #21618c; }
-.advance-preparing { background: #16a085; }
+
+.advance-btn:active { 
+  transform: scale(0.97); 
+}
+
+.advance-placed    { background: var(--color-primary); }
+.advance-placed:hover { background: var(--color-primary-hover); }
+
+.advance-preparing { background: var(--color-info); }
 .advance-preparing:hover { background: #117864; }
-.advance-ready { background: #27ae60; }
-.advance-ready:hover { background: #1e8449; }
-.empty {
-  padding: 2rem;
-  text-align: center;
-  background: white;
-  border-radius: 8px;
-  color: #666;
-}
+
+.advance-ready     { background: var(--color-success); }
+.advance-ready:hover { background: var(--color-success-hover); }

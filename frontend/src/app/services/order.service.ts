@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CartLine } from './cart.service';
+import { environment } from '../../environments/environment';
 
 export interface OrderItem {
   menuItemId: string;
@@ -23,8 +24,7 @@ export interface Order {
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-    // The base URL for the orders API endpoint
-  private apiUrl = 'http://localhost:5000/api/orders';
+  private apiUrl = `${environment.apiUrl}/api/orders`;
   private http = inject(HttpClient);
 
   // Sends a POST request to the server to place a new order with the provided payload

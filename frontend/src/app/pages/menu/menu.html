@@ -19,10 +19,15 @@
             </div>
             <div class="menu-actions">
               <span class="price">${{ item.price.toFixed(2) }}</span>
-              <button class="add-btn" (click)="addToCart(item)">
+
+              @if (auth.role() === 'customer') {
+              <button class="add-btn"
+                  [class.added]="justAdded() === item._id"
+                  (click)="addToCart(item)">
                 {{ justAdded() === item._id ? '✓ Added' : '+ Add' }}
               </button>
-            </div>
+            }
+</div>
           </li>
         }
       </ul>

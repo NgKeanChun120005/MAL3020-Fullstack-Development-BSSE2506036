@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 
 
 export interface MenuItem {
@@ -19,7 +19,7 @@ export type MenuItemDraft = Omit<MenuItem, '_id' | 'createdAt' | 'updatedAt'>;
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {
-  private apiUrl = 'http://localhost:5000/api/menu';
+  private apiUrl = `${environment.apiUrl}/api/menu`;
   private http = inject(HttpClient);
 
   // Fetches the list of menu items from the server

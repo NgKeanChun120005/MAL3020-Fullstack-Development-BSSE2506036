@@ -9,7 +9,17 @@ const orderRoutes = require('./routes/orderRoutes');
 function createApp() {
   const app = express();
 
-  app.use(cors({ origin: process.env.CLIENT_ORIGIN || '*' }));
+  app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests from localhost AND local LAN
+    if (!origin || /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)(:\d+)?$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
   app.use(express.json());
 
   // health check

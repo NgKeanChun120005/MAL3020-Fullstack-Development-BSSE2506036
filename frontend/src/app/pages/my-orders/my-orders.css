@@ -1,16 +1,82 @@
-.recently-updated {
-  animation: highlight 2s ease-in-out;
+.order-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  transition: box-shadow 0.2s ease;
 }
-@keyframes highlight {
-  0%   { background: #fffbe6; }
-  50%  { background: #fff3b0; }
-  100% { background: white; }
+
+.order-card:hover { box-shadow: var(--shadow-md); }
+
+.order-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface-muted);
+  border-bottom: 1px solid var(--color-border);
 }
+
+.order-card header strong {
+  font-size: 1.05rem;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+}
+
+.order-card ul {
+  list-style: none;
+  padding: var(--space-md) var(--space-lg);
+  margin: 0;
+}
+
+.order-card ul li {
+  padding: var(--space-xs) 0;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  border-bottom: 1px dashed #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-card ul li:last-child { border-bottom: none; }
+
 .notes {
   font-size: 0.85rem;
-  color: #666;
-  margin: 0.5rem 0 0;
-  padding: 0.4rem 0.6rem;
-  background: #f7f7f7;
-  border-radius: 4px;
+  color: var(--color-text-muted);
+  margin: 0 var(--space-lg) var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: #fff8dc;
+  border-left: 3px solid #e6b800;
+  border-radius: var(--radius-sm);
+}
+
+.order-card footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-surface-muted);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.order-card footer > span:first-child {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.empty-state {
+  background: white;
+  padding: var(--space-2xl) var(--space-xl);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+  border: 1px dashed var(--color-border-strong);
+}
+
+.empty-state a {
+  color: var(--color-primary);
+  font-weight: 600;
 }

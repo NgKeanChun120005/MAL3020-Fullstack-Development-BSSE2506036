@@ -285,7 +285,7 @@
 - This is the primary visual evidence for the WebSocket requirement.
 
 
-## CI pipeline (GitHub Actions)
+## CI pipeline
 - Written: 5-11-2026
 - Path: .github/workflows/ci.yml
 - What it does:
@@ -314,3 +314,16 @@
      - Fix: regenerated lock file locally (rm node_modules + package-lock, npm install), committed and pushed
   2. Backend ESLint failed with "no config file found"
      - Fix: created backend/.eslintrc.cjs with eslint:recommended preset
+
+
+
+## Static analysis evidence
+- Date: 5-11-2026
+- Coverage tool: c8 (Mocha-compatible coverage runner)
+- Coverage command: `npm run test:coverage`
+- Coverage results: docs/evidence/test-results/coverage.txt
+- Coverage screenshot: docs/evidence/screenshots/coverage.png
+- Test summary screenshot: docs/evidence/screenshots/test-summary.png
+- ESLint output: docs/evidence/test-results/eslint-output.txt
+- ESLint screenshot: docs/evidence/screenshots/eslint.png
+- CI now runs coverage on every push

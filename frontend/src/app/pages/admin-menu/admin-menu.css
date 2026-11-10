@@ -1,40 +1,66 @@
 .admin-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   align-items: start;
 }
-.admin-list, .admin-form {
+
+.admin-list {
   background: white;
-  padding: 1rem;
-  border-radius: 8px;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
 }
-.admin-list table {
+
+.admin-form h3 {
+  margin-top: 0;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+/* Highlight the row being edited */
+.data-table tr.editing td {
+  background: #fff9e6;
+}
+
+.actions {
+  white-space: nowrap;
+}
+
+/* Small buttons for the table */
+.btn-sm {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+/* Checkbox styling */
+.checkbox-group {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.admin-form .btn-primary {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 0.75rem;
+  margin-top: var(--space-sm);
 }
-.admin-list th, .admin-list td {
-  padding: 0.5rem;
-  border-bottom: 1px solid #eee;
-  text-align: left;
-  font-size: 0.9rem;
+
+@media (max-width: 800px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
 }
-.admin-list th { background: #f7f7f7; }
-.admin-list tr.editing td { background: #fff9e6; }
-.admin-list .actions { white-space: nowrap; }
-.admin-form { display: flex; flex-direction: column; gap: 0.75rem; }
-.admin-form h3 { margin: 0; }
-.admin-form label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
-.admin-form label.checkbox { flex-direction: row; align-items: center; gap: 0.5rem; }
-.admin-form input, .admin-form select {
-  padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.95rem;
-}
-button { cursor: pointer; }
-button.primary { background: #2980b9; color: white; border: 0; padding: 0.5rem 1rem; border-radius: 4px; }
-button.primary:disabled { background: #95a5a6; cursor: not-allowed; }
-button.danger { background: #c0392b; color: white; border: 0; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; }
-.admin-list button { padding: 0.25rem 0.5rem; font-size: 0.85rem; margin-right: 0.25rem; }

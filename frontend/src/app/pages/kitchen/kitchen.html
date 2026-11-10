@@ -7,7 +7,7 @@
 @if (loading()) {
   <p>Loading orders...</p>
 } @else if (activeOrders().length === 0) {
-  <p class="empty">No active orders. New orders will appear here automatically.</p>
+  <p class="empty">No active orders.</p>
 } @else {
   <div class="orders-grid">
     @for (order of activeOrders(); track order._id) {
@@ -17,7 +17,7 @@
         <header>
           <div>
            <strong>Order #{{ order._id.slice(-6) }}</strong> 
-           <span class="badge status-{{ order.status }}">{{ order.status }}</span>
+           <span class="status-badge status-{{ order.status }}">{{ order.status }}</span>
           </div>
           <span class="time">{{ order.createdAt | date:'shortTime' }}</span>
         </header>

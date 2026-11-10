@@ -1,0 +1,51 @@
+<h2>All Orders</h2>
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p>Loading orders...</p>
+} @else if (orders().length === 0) {
+  <p class="text-muted">No orders have been placed yet.</p>
+} @else {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Order ID</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (order of orders(); track order._id) {
+        <tr>
+          <td class="text-muted" style="white-space: nowrap;">
+            {{ order.createdAt | date:'shortTime' }}
+          </td>
+          <td style="font-family: var(--font-mono); font-size: 0.85rem;">
+            #{{ order._id.slice(-6) }}
+          </td>
+          <td>
+            @for (item of order.items; track $index) {
+              <div>{{ item.qty }} × {{ item.name }}</div>
+            }
+            @if (order.notes) {
+              <div class="text-faint" style="font-size: 0.8rem; margin-top: 4px;">
+                <em>Note: {{ order.notes }}</em>
+              </div>
+            }
+          </td>
+          <td><strong>${{ order.total.toFixed(2) }}</strong></td>
+          <td>
+            <span class="status-badge status-{{ order.status }}">
+              {{ order.status }}
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

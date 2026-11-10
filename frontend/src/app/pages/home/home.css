@@ -1,0 +1,70 @@
+.home-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Welcome Header */
+.welcome-header {
+  padding-bottom: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.welcome-header h1 {
+  margin: 0 0 var(--space-sm) 0;
+  color: var(--color-text);
+  font-size: 2rem;
+}
+
+.role-badge {
+  margin: 0;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+/* Action Cards */
+.action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.action-card h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+
+.action-card p {
+  flex-grow: 1; /* Pushes the button to the bottom */
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-lg);
+}
+
+/* Prevent dead links if cart is empty */
+.btn.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Info Panel */
+.info-panel {
+  background: var(--color-surface-muted);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.info-panel p {
+  margin: 0 0 var(--space-xs) 0;
+}

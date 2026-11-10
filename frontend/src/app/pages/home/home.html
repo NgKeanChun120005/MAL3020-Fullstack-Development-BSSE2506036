@@ -1,5 +1,75 @@
-@if (auth.user(); as user) {
-  <h2>Welcome, {{ user.name }}</h2>
-  <p>Role: {{ user.role }}</p>
-  <p>Email: {{ user.email }}</p>
-}
+<div class="home-container">
+  <!-- Welcome Header -->
+  <header class="welcome-header">
+    <div>
+      <h1>Welcome back, {{ firstName() }}</h1>
+      <p class="role-badge">
+        <span class="status-badge" 
+              [class.status-preparing]="auth.role() === 'kitchen'"
+              [class.status-ready]="auth.role() === 'admin'"
+              [class.status-placed]="auth.role() === 'customer'">
+          {{ auth.role() }}
+        </span>
+      </p>
+    </div>
+  </header>
+
+  <!-- Role-Specific Dashboards -->
+  
+  <!-- CUSTOMER VIEW -->
+  @if (auth.role() === 'customer') {
+    <div class="dashboard-grid">
+      <div class="card action-card">
+        <h3>Hungry?</h3>
+        <p>Browse our menu and grab something delicious.</p>
+        <a routerLink="/menu" class="btn btn-primary">Browse Menu →</a>
+      </div>
+
+      <div class="card action-card">
+        <h3>Your Cart</h3>
+        <p>You have <strong>{{ cart.count() }}</strong> item(s) in your cart.</p>
+        <p class="text-muted">Total: ${{ cart.total().toFixed(2) }}</p>
+        <a routerLink="/cart" class="btn btn-success" [class.disabled]="cart.isEmpty()">
+          View Cart
+        </a>
+      </div>
+
+      <div class="card action-card">
+        <h3>Track Order</h3>
+        <p>Waiting for some food? Check on your active orders here.</p>
+        <a routerLink="/orders" class="btn btn-ghost">My Orders</a>
+      </div>
+    </div>
+  }
+
+  <!-- KITCHEN / ADMIN VIEW -->
+  @if (auth.role() === 'kitchen' || auth.role() === 'admin') {
+    <div class="dashboard-grid">
+      <div class="card action-card">
+        <h3>Kitchen Dashboard</h3>
+        <p>View incoming orders here.</p>
+        <a routerLink="/kitchen" class="btn btn-primary">Open Kitchen Queue →</a>
+      </div>
+
+      @if (auth.role() === 'admin') {
+        <div class="card action-card">
+          <h3>Manage Menu</h3>
+          <p>Add new dishes, update prices, or mark items as sold out.</p>
+          <a routerLink="/admin/menu" class="btn btn-ghost">Edit Menu</a>
+        </div>
+
+        <div class="card action-card">
+          <h3>All Orders</h3>
+          <p>View order history and current status for all customers.</p>
+          <a routerLink="/admin/orders" class="btn btn-ghost">View Orders</a>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- System Info -->
+  <div class="info-panel">
+    <p><strong>Account:</strong> {{ auth.user()?.email }}</p>
+    <p><strong>Status:</strong> Logged in and authenticated</p>
+  </div>
+</div>

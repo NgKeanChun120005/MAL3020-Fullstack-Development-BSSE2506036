@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { SocketService } from '../../services/socket.service';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface KitchenOrderItem {
   menuItemId: string;
@@ -40,7 +41,7 @@ const STATUS_FLOW: Record<string, { next: string; label: string } | null> = {
 export class Kitchen implements OnInit, OnDestroy {
   private http = inject(HttpClient);
   private socket = inject(SocketService);
-  private apiUrl = 'http://localhost:5000/api/orders';
+  private apiUrl = `${environment.apiUrl}/api/orders`;
 
   orders = signal<KitchenOrder[]>([]);
   loading = signal(true);
@@ -67,7 +68,7 @@ export class Kitchen implements OnInit, OnDestroy {
     this.statusSub?.unsubscribe();
   }
 
-  loadOrders(): void {
+    loadOrders(): void {
     this.http.get<KitchenOrder[]>(this.apiUrl).subscribe({
       next: (data) => {
         this.orders.set(data);

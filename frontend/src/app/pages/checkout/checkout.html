@@ -22,21 +22,23 @@
 
     <section class="checkout-form">
       <h3>Order Notes</h3>
-      <label>
-        Notes (optional)
+      
+      <div class="form-group">
+        <label>Notes (optional)</label>
         <textarea
+          class="w-100"
           rows="3"
           [ngModel]="notes()"
           (ngModelChange)="notes.set($event)"
           placeholder="Any special requests?">
         </textarea>
-      </label>
+      </div>
 
       @if (error()) {
-        <p class="error">{{ error() }}</p>
+        <p class="alert-error">{{ error() }}</p>
       }
 
-      <button class="primary" (click)="submit()" [disabled]="submitting()">
+      <button class="btn btn-primary btn-block" (click)="submit()" [disabled]="submitting()">
         {{ submitting() ? 'Placing order...' : 'Place Order' }}
       </button>
     </section>

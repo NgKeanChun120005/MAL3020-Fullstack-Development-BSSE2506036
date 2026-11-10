@@ -9,11 +9,12 @@ import { Cart } from './pages/cart/cart';
 import { Checkout } from './pages/checkout/checkout';
 import { MyOrders } from './pages/my-orders/my-orders';
 import { Kitchen } from './pages/kitchen/kitchen';
+import { AdminOrders } from './pages/admin-orders/admin-orders';
 
 // Define the routes for the Angular application, including authentication and role-based guards.
 export const routes: Routes = [
   { path: '', component: Home, canActivate: [authGuard] },
-  { path: 'menu', component: Menu },
+  { path: 'menu', canActivate: [authGuard], component: Menu },
   //admin can also monitor the kitchen dashboard.
   { path: 'kitchen', canActivate: [authGuard, roleGuard('kitchen', 'admin')], component: Kitchen },
   { path: 'login', component: Login },
@@ -24,7 +25,7 @@ export const routes: Routes = [
   { path: 'cart', canActivate: [authGuard, roleGuard('customer')], component: Cart },
   { path: 'checkout', canActivate: [authGuard, roleGuard('customer')], component: Checkout },
   { path: 'orders', canActivate: [authGuard, roleGuard('customer')], component: MyOrders },
-
+  { path: 'admin/orders', canActivate: [authGuard, roleGuard('admin')], component: AdminOrders },
   // Admin route is protected by both authGuard and roleGuard to ensure only authenticated users with the 'admin' role can access it.
   { path: 'admin', canActivate: [authGuard, roleGuard('admin')], component: Home },
   { path: 'admin/menu', canActivate: [authGuard, roleGuard('admin')], component: AdminMenu },

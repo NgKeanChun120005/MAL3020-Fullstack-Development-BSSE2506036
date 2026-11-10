@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 // Define the User and AuthResponse interfaces
 export interface User {
@@ -19,7 +20,7 @@ export interface AuthResponse {
 // The AuthService handles user authentication (registration, login, logout).
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private apiUrl = `${environment.apiUrl}/api/auth`;
   private readonly TOKEN_KEY = 'takeaway_token';
   private readonly USER_KEY  = 'takeaway_user';
 

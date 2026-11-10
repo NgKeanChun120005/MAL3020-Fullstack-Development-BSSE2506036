@@ -1,31 +1,47 @@
 <nav>
-  <a routerLink="/menu" routerLinkActive="active">Menu</a>
+  <!-- Navigation Links -->
+  <div class="nav-left">
+    @if (auth.isLoggedIn()) {
+      <a routerLink="/menu" routerLinkActive="active">Menu</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
 
-  @if (auth.isLoggedIn()) {
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      @if (auth.role() === 'admin') {
+        <a routerLink="/admin/menu" routerLinkActive="active">Manage Menu</a>
+        <a routerLink="/admin/orders" routerLinkActive="active">All Orders</a>
+      }
 
-    @if (auth.role() === 'admin') {
-      <a routerLink="/admin/menu" routerLinkActive="active">Manage Menu</a>
+      @if (auth.role() === 'customer') {
+        <a routerLink="/cart" routerLinkActive="active" class="cart-link">
+          Cart
+          @if (cart.count() > 0) {
+            <span class="cart-badge">{{ cart.count() }}</span>
+          }
+        </a>
+        <a routerLink="/orders" routerLinkActive="active">My Orders</a>
+      }
+
+      @if (auth.role() === 'kitchen') {
+        <a routerLink="/kitchen" routerLinkActive="active" class="cart-link">
+          Kitchen
+          @if (socket.activeKitchenOrders() > 0) {
+            <span class="cart-badge">{{ socket.activeKitchenOrders() }}</span>
+          }
+        </a>
+      }
+    } @else {
+      <a routerLink="/login" routerLinkActive="active">Log In</a>
+      <a routerLink="/register" routerLinkActive="active">Register</a>
     }
+  </div>
 
-    @if (auth.role() === 'kitchen' || auth.role() === 'admin') {
-      <a routerLink="/kitchen" routerLinkActive="active">Kitchen</a>
+  <!-- Brand -->
+  <a routerLink="/" class="brand">🍔 Restaurant Takeaway Ordering System</a>
+
+  <!-- User Info & Logout -->
+  <div class="nav-right">
+    @if (auth.isLoggedIn()) {
+      <span class="user-name">{{ auth.user()?.name }}</span>
+      <button (click)="auth.logout()">Log Out</button>
     }
-
-    @if (auth.role() === 'customer') {
-      <a routerLink="/cart" routerLinkActive="active" class="cart-link">
-        Cart
-        @if (cart.count() > 0) {
-          <span class="cart-badge">{{ cart.count() }}</span>
-        }
-      </a>
-      <a routerLink="/orders" routerLinkActive="active">My Orders</a>
-    }
-
-    <span class="user">{{ auth.user()?.name }} ({{ auth.user()?.role }})</span>
-    <button (click)="auth.logout()">Log Out</button>
-  } @else {
-    <a routerLink="/login" routerLinkActive="active">Log In</a>
-    <a routerLink="/register" routerLinkActive="active">Register</a>
-  }
+  </div>
 </nav>

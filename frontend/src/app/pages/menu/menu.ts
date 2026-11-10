@@ -2,6 +2,7 @@ import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { MenuService, MenuItem } from '../../services/menu.service';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -13,7 +14,8 @@ import { CartService } from '../../services/cart.service';
 export class Menu implements OnInit {
   private menuService = inject(MenuService);
   cart = inject(CartService);
-
+  auth = inject(AuthService);
+  
   items = signal<MenuItem[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
