@@ -2,7 +2,12 @@
 
 **MAL3020 Full-Stack Development — Assessment 2**
 
-A real-time takeaway ordering system built with the MEAN stack. Customers browse the menu, place orders, and track their status live. Kitchen staff see incoming orders instantly and advance their status. Admins manage the menu and view all orders.
+A real-time takeaway ordering system built with the MEAN stack. The system contain three roles: Customers browse the menu, place orders, and track their status live. Kitchen staff see incoming orders instantly and advance their status. While admins manage the menu and view all orders.
+
+## Author
+**Student Name**: Ng Kean Chun
+
+**Student ID**: BSSE2506036
 
 ## Stack
 - **Frontend:** Angular 21 (Standalone components, Signals)
