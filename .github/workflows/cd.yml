@@ -2,14 +2,14 @@ name: Deploy to Local Server
 
 on:
   workflow_run:
-    workflows: ["CI"] # This waits for your existing CI pipeline to finish
+    workflows: ["CI"] # waits for existing CI pipeline to finish
     types:
       - completed
 
 jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref == 'refs/heads/main' }}
-    runs-on: self-hosted # This tells GitHub to use YOUR machine
+    runs-on: self-hosted # runs on a self-hosted runner
     
     steps:
       - name: Checkout code
