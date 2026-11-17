@@ -35,7 +35,7 @@ A real-time takeaway ordering system built with the MEAN stack. The system conta
 ### Admin
 - Log in with a pre-seeded account
 - Full CRUD operations on menu items
-- Toggle item availability (sold-out items disappear from the customer menu)
+- Toggle item availability
 - View a live table of all orders in the system
 
 ## Prerequisites
@@ -51,10 +51,9 @@ A real-time takeaway ordering system built with the MEAN stack. The system conta
    ```
    
 2. Start the application:
-  ```bash
-  docker compose up --build
-  (The first build takes 3–5 minutes. Subsequent starts take ~10 seconds.)
-  ```
+   ```bash
+   docker compose up --build
+   ```
 3. Access the application:
    - **Frontend:** http://localhost:4200
    - **Backend API Health Check:** http://localhost:5000/api/health
@@ -91,10 +90,14 @@ To run tests with coverage reporting (c8):
 docker compose exec backend npm run test:coverage
   ```
 
-## CI Pipeline
+## CI/CD Pipeline
+### Continuous Integration (CI)
 The project uses GitHub Actions (```.github/workflows/ci.yml```). On every push to ```main```, two parallel jobs will run:
  - **Backend:** ESLint + Mocha test suite with coverage.
  - **Frontend** Production build via ```ng build```.
+   
+### Continuous Deployment (CD)
+The project also includes Continuous Deployment (```.github/workflows/cd.yml```). Once the CI pipeline successfully passes, a self-hosted GitHub Actions runner automatically deploys the application to the local machine. It executes ```docker compose down``` followed by ```docker compose up -d --build```, ensuring the running application always matches the tested codebase.
 
 ## Architecture Overview
 **Layered Backend:** Code is split into ```routes```, ```controllers```, ```services```, and ```models``` to enforce Separation of Concerns.
