@@ -31,6 +31,18 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+.active-filter {
+  background: var(--color-primary) !important;
+  color: white !important;
+  border-color: var(--color-primary) !important;
+}
+
 .menu-list li:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -51,6 +63,7 @@
   font-size: 0.9rem;
   line-height: 1.4;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;

@@ -1,5 +1,16 @@
 <h2>Menu</h2>
 
+<div class="filter-bar">
+  @for (cat of categories; track cat) {
+    <button 
+      class="btn btn-ghost" 
+      [class.active-filter]="selectedCategory() === cat"
+      (click)="selectedCategory.set(cat)">
+      {{ cat | titlecase }}
+    </button>
+  }
+</div>
+
 @if (loading()) {
   <p>Loading menu...</p>
 } @else if (error()) {
@@ -21,13 +32,13 @@
               <span class="price">${{ item.price.toFixed(2) }}</span>
 
               @if (auth.role() === 'customer') {
-              <button class="add-btn"
-                  [class.added]="justAdded() === item._id"
-                  (click)="addToCart(item)">
-                {{ justAdded() === item._id ? '✓ Added' : '+ Add' }}
-              </button>
-            }
-</div>
+                <button class="add-btn"
+                    [class.added]="justAdded() === item._id"
+                    (click)="addToCart(item)">
+                  {{ justAdded() === item._id ? '✓ Added' : '+ Add' }}
+                </button>
+              }
+            </div>
           </li>
         }
       </ul>

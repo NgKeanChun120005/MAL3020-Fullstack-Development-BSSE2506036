@@ -31,10 +31,26 @@ async function login(req, res, next) {
   }
 }
 
+// Controller function for handling forgot password requests
+async function forgotPassword(req, res, next) {
+  try {
+    const result = await authService.forgotPassword(req.body.email);
+    res.json(result);
+  } catch (err) { next(err); }
+}
+
+// Controller function for handling password reset requests
+async function resetPassword(req, res, next) {
+  try {
+    const result = await authService.resetPassword(req.body.token, req.body.password);
+    res.json(result);
+  } catch (err) { next(err); }
+}
+
 // Controller function for retrieving the authenticated user's information
 function me(req, res) {
   // Return the authenticated user's information (attached to req.user by the authMiddleware) in the response
   res.json({ user: req.user });
 }
 
-module.exports = { register, login, me };
+module.exports = {register, login, me, forgotPassword, resetPassword};

@@ -25,6 +25,11 @@ export class Register {
   loading = signal(false);
   error = signal<string | null>(null);
 
+  showPassword = signal(false);
+  togglePassword(): void {
+    this.showPassword.update(v => !v);
+  }
+  
   submit(): void {
     if (this.form.invalid) return;
     this.loading.set(true);

@@ -10,6 +10,8 @@ import { Checkout } from './pages/checkout/checkout';
 import { MyOrders } from './pages/my-orders/my-orders';
 import { Kitchen } from './pages/kitchen/kitchen';
 import { AdminOrders } from './pages/admin-orders/admin-orders';
+import { ResetPassword } from './pages/reset-password/reset-password';
+import { ForgotPassword } from './pages/forgot-password/forgot-password';
 
 // Define the routes for the Angular application, including authentication and role-based guards.
 export const routes: Routes = [
@@ -19,6 +21,8 @@ export const routes: Routes = [
   { path: 'kitchen', canActivate: [authGuard, roleGuard('kitchen', 'admin')], component: Kitchen },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
+  { path: 'forgot-password', component: ForgotPassword },
+  { path: 'reset-password', component: ResetPassword },
  
   // All three of these have roleGuard('customer') because it's for customer only.
   //A kitchen staff shouldn't see a cart. An admin shouldn't either.

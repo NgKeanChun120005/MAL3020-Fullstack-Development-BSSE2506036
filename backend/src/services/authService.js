@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/User');
 const { AppError } = require('../utils/AppError');
+const crypto = require('crypto');
 
 // authService.js 
 
@@ -14,7 +15,7 @@ function signToken(user) {
   );
 }
 
-//It strips away sensitive internal database properties (like password hashes) and returns only safe data
+//Strips away sensitive internal database properties (password hashes) and returns only safe data
 function publicUser(user) {
   return {
     id: user._id,
@@ -59,4 +60,40 @@ async function login({ email, password }) {
   return { token, user: publicUser(user) };
 }
 
-module.exports = { register, login };
+async function forgotPassword(email) {
+  const user = await User.findOne({ email });
+  if (!user) throw new AppError(404, 'User not found');
+
+  if (user.role !== 'customer') {
+    throw new AppError(403, 'Password reset is only available for customer accounts');
+  }
+
+  //generate a random token and set it to expire in 1 hour
+  const token = crypto.randomBytes(20).toString('hex');
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = Date.now() + 3600000;
+  await user.save();
+
+  // return the token in the response
+  return { 
+    message: 'Token generated successfully.',
+    token: token 
+  };
+}
+async function resetPassword(token, newPassword) {
+  const user = await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() }
+  });
+
+  if (!user) throw new AppError(400, 'Invalid or expired token');
+
+  user.passwordHash = newPassword;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+  await user.save();
+
+  return { message: 'Password reset successful' };
+}
+
+module.exports = { register, login, forgotPassword, resetPassword };
