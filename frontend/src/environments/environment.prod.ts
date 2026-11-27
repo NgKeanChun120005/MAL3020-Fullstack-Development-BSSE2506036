@@ -1,4 +1,5 @@
 export const environment = {
-  apiUrl: 'http://172.21.240.1:5000',   // for LAN UAT
-  socketUrl: 'http://172.21.240.1:5000'
+  production: true,
+  apiUrl: `http://${window.location.hostname}:5000`,
+  socketUrl: `http://${window.location.hostname}:5000`
 };
