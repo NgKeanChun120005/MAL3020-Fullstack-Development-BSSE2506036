@@ -42,28 +42,31 @@
     </div>
   }
 
-  <!-- KITCHEN / ADMIN VIEW -->
-  @if (auth.role() === 'kitchen' || auth.role() === 'admin') {
+   <!-- KITCHEN VIEW -->
+  @if (auth.role() === 'kitchen') {
     <div class="dashboard-grid">
       <div class="card action-card">
         <h3>Kitchen Dashboard</h3>
-        <p>View incoming orders here.</p>
+        <p>View incoming orders and update their status in real-time.</p>
         <a routerLink="/kitchen" class="btn btn-primary">Open Kitchen Queue →</a>
       </div>
+    </div>
+  }
 
-      @if (auth.role() === 'admin') {
-        <div class="card action-card">
-          <h3>Manage Menu</h3>
-          <p>Add new dishes, update prices, or mark items as sold out.</p>
-          <a routerLink="/admin/menu" class="btn btn-ghost">Edit Menu</a>
-        </div>
+  <!-- ADMIN VIEW -->
+  @if (auth.role() === 'admin') {
+    <div class="dashboard-grid">
+      <div class="card action-card">
+        <h3>Manage Menu</h3>
+        <p>Add new dishes, update prices, or mark items as sold out.</p>
+        <a routerLink="/admin/menu" class="btn btn-ghost">Edit Menu</a>
+      </div>
 
-        <div class="card action-card">
-          <h3>All Orders</h3>
-          <p>View order history and current status for all customers.</p>
-          <a routerLink="/admin/orders" class="btn btn-ghost">View Orders</a>
-        </div>
-      }
+      <div class="card action-card">
+        <h3>All Orders</h3>
+        <p>View order history and current status for all customers.</p>
+        <a routerLink="/admin/orders" class="btn btn-ghost">View Orders</a>
+      </div>
     </div>
   }
 

@@ -1,11 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TitleCasePipe } from '@angular/common';
 import { MenuService, MenuItem, MenuItemDraft } from '../../services/menu.service';
 
 @Component({
   selector: 'app-admin-menu',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TitleCasePipe],
   templateUrl: './admin-menu.html',
   styleUrls: ['./admin-menu.css']
 })
@@ -17,6 +18,7 @@ export class AdminMenu implements OnInit {
   error = signal<string | null>(null);
   editingId = signal<string | null>(null);
   saving = signal(false);
+  isDrawerOpen = signal(false);
 
   draft: MenuItemDraft = this.emptyDraft();
 
@@ -38,6 +40,7 @@ export class AdminMenu implements OnInit {
     this.editingId.set(null);
     this.draft = this.emptyDraft();
     this.error.set(null);
+    this.isDrawerOpen.set(true);
   }
 
   startEdit(item: MenuItem): void {
@@ -49,6 +52,12 @@ export class AdminMenu implements OnInit {
       category: item.category,
       available: item.available
     };
+    this.error.set(null);
+    this.isDrawerOpen.set(true);
+  }
+
+  closeDrawer(): void {
+    this.isDrawerOpen.set(false);
     this.error.set(null);
   }
 
@@ -62,7 +71,7 @@ export class AdminMenu implements OnInit {
     obs.subscribe({
       next: () => {
         this.saving.set(false);
-        this.startCreate();
+        this.closeDrawer();
         this.refresh();
       },
       error: (err) => {
